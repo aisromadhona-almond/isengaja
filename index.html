@@ -1,837 +1,307 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#17233f">
-<title>MathQuest — The Adventure of Numbers</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff7e8">
+<title>MathQuest 2.0 — The Storybook Adventure</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap');
-:root{--navy:#17233f;--ink:#263653;--muted:#71809a;--cream:#fffaf0;--gold:#f4bd55;--coral:#f27b68;--mint:#70c7a6;--sky:#75b8e8;--purple:#9c8be8;--card:#fff;--line:#e9e6dc}
-*{box-sizing:border-box}
-body{margin:0;background:#f6f4ed;color:var(--ink);font-family:Nunito,sans-serif;-webkit-tap-highlight-color:transparent}
-button{font:inherit;cursor:pointer;border:0}
-button:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
-.hidden{display:none!important}
-.app{min-height:100vh;background:radial-gradient(circle at 90% 0,#fff1d4 0,transparent 28%),#f7f5ee}
-.topbar{height:68px;padding:0 4vw;display:flex;align-items:center;justify-content:space-between;background:#fffdf8;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
-.brand{font:700 24px Fredoka;color:var(--navy);cursor:pointer}.brand span{color:#e69c35}
-.top-right{display:flex;gap:8px;align-items:center}
-.pill{background:#fff1ce;padding:7px 12px;border-radius:99px;font-weight:900;color:#98671d;font-size:13px;display:inline-block;white-space:nowrap}
-.pill.lv{background:#eeeaff;color:#5b4ab0}
-.avatar{width:42px;height:42px;border-radius:50%;background:#dff2e8;display:grid;place-items:center;font-size:23px;border:2px solid #fff;box-shadow:0 2px 8px #0002}
-.nav{display:flex;justify-content:center;gap:6px;padding:10px 12px;background:#fffdf8;border-bottom:1px solid var(--line);position:sticky;top:68px;z-index:19;overflow-x:auto}
-.nv{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:800;font-size:14px;white-space:nowrap}
-.nv small{font-size:14px}.nv.on{background:var(--navy);color:#fff}
-.shell{max-width:1120px;margin:auto;padding:26px 20px 70px}
-.page{animation:fadeUp .35s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@keyframes pulse{0%{box-shadow:0 0 0 0 #f4bd5599}100%{box-shadow:0 0 0 16px #f4bd5500}}
-.bob{animation:bob 2.4s ease-in-out infinite;display:inline-block}
-.shake{animation:shake .3s}
-.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:900;color:#d99b36}
-.muted{color:var(--muted);font-size:13px}
-.hero{background:var(--navy);color:#fff;border-radius:26px;padding:34px 38px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.25fr .75fr;gap:20px;min-height:250px;box-shadow:0 14px 35px #1b2a4820}
-.hero:after{content:"✦";position:absolute;font-size:240px;color:#ffffff0c;right:5%;top:-65px}
-.hero h1{font:700 clamp(30px,5vw,48px)/1.08 Fredoka;margin:12px 0}
-.hero p{color:#d3dcec;max-width:520px;line-height:1.7;margin:0 0 20px}
-.hero-art{font-size:110px;display:grid;place-items:center;z-index:1;filter:drop-shadow(0 12px 7px #0003)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.row.between{justify-content:space-between}.row.center{justify-content:center}.row.wrap{flex-wrap:wrap}
-.btn{padding:12px 20px;border-radius:13px;font-weight:900;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.btn:hover{transform:translateY(-2px)}
-.primary{background:var(--gold);color:#3c2c16;box-shadow:0 4px 0 #d99b36}
-.secondary{background:#edf1f7;color:var(--navy)}
-.ghost{background:#ffffff22;color:#fff}
-.danger{background:#fde4df;color:#a4493d}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;display:flex;gap:12px;align-items:center}
-.stat-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:22px;flex:none}
-.stat strong{font:700 21px Fredoka;display:block}.stat small{color:var(--muted);font-weight:700}
-.xpbar{height:6px;background:#eee;border-radius:9px;margin-top:5px;overflow:hidden}.xpbar i{display:block;height:100%;background:var(--purple)}
-.section-head{margin:30px 0 14px}.section-head h2{font:700 25px Fredoka;margin:0;color:var(--navy)}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.worlds{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.world{border-radius:22px;padding:22px;color:#fff;position:relative;overflow:hidden;min-height:215px}
-.world.prob{background:linear-gradient(135deg,#347c9d,#28506f)}.world.stat{background:linear-gradient(135deg,#8065b5,#514a89)}
-.world h3{font:700 25px Fredoka;margin:8px 0}.world p{max-width:300px;color:#ffffffd9;line-height:1.5;font-size:13px}
-.world .we{font-size:58px;position:absolute;right:22px;top:20px;filter:drop-shadow(0 5px 3px #0002)}
-.world .btn{background:#fff;color:var(--navy);margin-top:12px}
-.progress{height:8px;background:#ffffff50;border-radius:99px;overflow:hidden;margin:14px 0 5px;max-width:250px}.progress span{height:100%;display:block;background:#f8c65f;border-radius:99px}
-.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
-.feature{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;text-align:center;transition:.2s;color:var(--ink)}
-.feature:hover{transform:translateY(-3px);box-shadow:0 8px 20px #1b2a4815}
-.feature span{font-size:30px}.feature b{display:block;margin:8px 0 3px}.feature small{color:var(--muted)}
-.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;max-width:860px;margin:6px auto;box-shadow:0 10px 30px #1b2a480b}
-.panel.wide{max-width:1000px}.panel.center{text-align:center}
-.panel h2{font:700 29px Fredoka;color:var(--navy);margin:4px 0 8px}.panel h3{font:700 21px Fredoka;color:var(--navy);margin:14px 0 8px}
-.panel p{line-height:1.7;color:#596982}
-.back{color:#60708b;background:transparent;font-weight:900;padding:6px 0;margin-bottom:10px}
-.big{font-size:70px}
-.dots{display:flex;gap:6px;margin:10px 0 16px}.dots i{flex:1;height:7px;border-radius:9px;background:#e8eaf0}.dots i.on{background:var(--sky)}
-.lesson-box{background:#f4f8fb;border-left:4px solid var(--sky);padding:16px 18px;border-radius:12px;margin:10px 0 16px}
-.lesson-box.story{background:#fff8e8;border-color:var(--gold)}
-.lesson-box p{margin:0 0 8px}.lesson-box .ex{background:#fff;border-radius:10px;padding:10px 12px;margin-top:10px}
-.formula{font:700 22px Fredoka;color:#315c82;text-align:center;padding:10px}
-.owl{display:flex;gap:14px;align-items:flex-start}.owl-av{font-size:50px;flex:none}
-.bubble{background:#fff;border-radius:16px;padding:12px 16px;line-height:1.65;color:#4a5a73;box-shadow:0 3px 12px #0001;position:relative}
-.demo{background:#fbfaf5;border:2px dashed #e5dfc9;border-radius:16px;padding:16px;margin:14px 0}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-.chip{padding:8px 13px;border-radius:99px;background:#edf1f7;color:var(--navy);font-weight:800;font-size:13px}.chip.on{background:var(--navy);color:#fff}
-.tiles-sm{display:flex;flex-wrap:wrap;gap:6px}.tiles-sm span{background:#fff;border:1px solid #dfe6f0;border-radius:9px;padding:4px 9px;font-weight:800;font-size:13px}
-.sl{display:flex;align-items:center;gap:10px;margin:8px 0;font-weight:800}.sl span{width:120px;flex:none}.sl input{flex:1}.sl b{width:30px;text-align:right}
-input[type=range]{accent-color:#e69c35}.wide{width:100%}
-.input{padding:11px 14px;border:2px solid #e3e7ee;border-radius:12px;font:inherit;font-weight:700;width:100%;color:var(--ink);background:#fff}
-.input:focus{outline:none;border-color:var(--sky)}.input.ok{border-color:var(--mint);background:#e9f8f1}.input.no{border-color:var(--coral);background:#fff0ed}
-.lbl{display:block;font-weight:900;margin:14px 0 6px;font-size:13px;color:var(--muted)}
-.pbars{margin:10px 0}.pb{display:grid;grid-template-columns:150px 1fr 56px;gap:10px;align-items:center;margin:6px 0;font-weight:800;font-size:13px}
-.pbt{height:12px;background:#e9edf3;border-radius:9px;overflow:hidden}.pbt i{display:block;height:100%;border-radius:9px;transition:.3s}
-.statline{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0;font-weight:800}
-.chartbox{position:relative;height:250px;margin:12px 0;background:#fff;border-radius:14px;padding:6px}.chartbox.sm{height:200px}
-.tbl{border-collapse:collapse;margin:12px auto;min-width:260px;background:#fff;border-radius:10px;overflow:hidden}
-.tbl th,.tbl td{border:1px solid #e5e9f0;padding:7px 14px;text-align:center;font-weight:700}.tbl th{background:#f1f5fa}
-.numline{position:relative;height:50px;margin:18px 14px;border-bottom:3px solid #cdd7e5}
-.nd{position:absolute;bottom:-9px;width:16px;height:16px;border-radius:50%;background:var(--sky);transform:translateX(-50%);border:2px solid #fff}
-.nd.mn{background:var(--mint)}.nd.mx{background:var(--coral)}
-.question{font-weight:900;font-size:18px;color:var(--navy);margin:16px 0;line-height:1.5}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.answer{padding:14px;border:2px solid #e8eaf0;border-radius:12px;background:#fff;text-align:left;font-weight:800;color:var(--ink);transition:.15s}
-.answer:hover:not(:disabled){border-color:var(--sky);background:#f3f9ff}
-.answer.correct{border-color:var(--mint);background:#e9f8f1;opacity:1}.answer.wrong{border-color:var(--coral);background:#fff0ed;opacity:1}
-.numrow{display:flex;gap:10px}.numrow .input{flex:1}
-.feedback{margin:14px 0;padding:13px 15px;border-radius:12px;font-weight:700;line-height:1.55;animation:pop .25s}
-.feedback.good{background:#e9f8f1;color:#247451}.feedback.bad{background:#fff0ed;color:#a4493d}
-.stmt{border-top:1px solid var(--line);padding:6px 0}
-.game-stage{background:linear-gradient(135deg,#eef7fb,#f4f0ff);border-radius:18px;padding:22px;text-align:center;margin:14px 0}
-.die{font-size:84px;line-height:1.3}.bigval{font:700 46px Fredoka;color:var(--navy)}
-.stars{font-size:34px;letter-spacing:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
-.card h3{font:700 19px Fredoka;margin:0 0 6px;color:var(--navy)}
-.gcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px}
-.gcard .ge{font-size:46px}.gcard h3{margin:0;font:700 22px Fredoka;color:var(--navy)}.gcard p{margin:0;font-size:13px;color:var(--muted);line-height:1.5;flex:1}
-.tag{font-size:11px;font-weight:900;padding:3px 9px;border-radius:99px;display:inline-block;width:fit-content}.tag.prob{background:#dcedf5;color:#28506f}.tag.stat{background:#ebe6fa;color:#514a89}
-.level-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.level{border:1px solid var(--line);border-radius:15px;padding:15px;background:#fffdf9}.level.lock{opacity:.55}
-.level h4{margin:0 0 5px}.level p{font-size:13px;margin:0 0 10px}.level .btn{width:100%}
-/* map */
-.map{position:relative;aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,#a9dcf2,#6fb7de);box-shadow:inset 0 0 0 4px #fff8,0 12px 30px #1b2a4820;margin-bottom:18px}
-.map svg{position:absolute;inset:0;width:100%;height:100%}
-.isl{position:absolute;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;box-shadow:inset 0 -12px 0 #0002}
-.isl.a{left:1%;top:5%;width:46%;height:90%;background:#8fd6a3}.isl.b{right:1%;top:6%;width:48%;height:88%;background:#c8b8f0}
-.deco{position:absolute;font-size:clamp(18px,3vw,34px);opacity:.9;pointer-events:none}
-.node{position:absolute;transform:translate(-50%,-50%);width:clamp(42px,7vw,66px);height:clamp(42px,7vw,66px);border-radius:50%;background:#fff;border:4px solid #cdd5e2;display:grid;place-items:center;font-size:clamp(18px,3vw,28px);box-shadow:0 5px 0 #0002;z-index:3;transition:.2s;padding:0}
-.node:hover:not(.lock){transform:translate(-50%,-55%) scale(1.06)}
-.node.cur{border-color:var(--gold);animation:pulse 1.4s infinite;background:#fff8e0}.node.done{border-color:var(--mint);background:#e9f8f1}.node.lock{filter:grayscale(1);opacity:.75;background:#e9edf3}
-.node .nl{position:absolute;top:100%;margin-top:4px;font-size:clamp(9px,1.4vw,12px);font-weight:900;color:var(--navy);background:#ffffffe6;border-radius:8px;padding:2px 7px;white-space:nowrap}
-.node .ns{position:absolute;top:-10px;font-size:11px;background:#fff;border-radius:99px;padding:0 5px}
-.token{position:absolute;transform:translate(-50%,-135%);font-size:clamp(24px,4vw,40px);z-index:4;transition:left 1s ease,top 1s ease;filter:drop-shadow(0 4px 3px #0004)}
-/* games */
-.tiles{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0}
-.tile{min-width:54px;height:54px;border-radius:14px;background:#fff;border:2px solid #dbe3ef;font:700 22px Fredoka;color:var(--navy);box-shadow:0 4px 0 #dbe3ef}
-.tile:hover{border-color:var(--sky)}.tile.sorted{background:#e9f8f1;border-color:var(--mint);box-shadow:0 4px 0 #bfe5d3;cursor:default}
-.wheelwrap{position:relative;width:min(320px,100%);margin:10px auto}
-#wheel{width:100%;display:block;transition:transform 4s cubic-bezier(.12,.7,.1,1);border-radius:50%;box-shadow:0 8px 22px #0003}
-.pointer{position:absolute;left:50%;top:-12px;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid var(--navy);z-index:2;filter:drop-shadow(0 2px 2px #0004)}
-.hearts{font-size:22px;letter-spacing:2px}
-.hpbar{height:16px;background:#e7e9f0;border-radius:99px;overflow:hidden;margin:6px 0}.hpbar i{display:block;height:100%;background:linear-gradient(90deg,#f27b68,#f4bd55);transition:width .4s}
-.timer{height:10px;background:#e7e9f0;border-radius:99px;overflow:hidden;margin:10px 0}.timer i{display:block;height:100%;background:var(--mint);transition:width .1s linear}
-.monster{font-size:78px;display:inline-block}.monster.hit{animation:shake .35s}
-.battlehead{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center;text-align:center}
-.board{list-style:none;margin:10px 0;padding:0}.board li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;margin:6px 0;background:#fbfaf5;border:1px solid var(--line);font-weight:800}
-.board li.me{background:#fff4d6;border-color:var(--gold)}.board .rk{width:34px;font:700 20px Fredoka}.board .nm{flex:1}.board small{color:var(--muted);font-weight:700}
-.ach{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:center}
-.ach .ai{font-size:34px;width:56px;height:56px;border-radius:14px;background:#fff1ce;display:grid;place-items:center;flex:none}
-.ach.lock{opacity:.5;filter:grayscale(1)}.ach b{display:block}.ach small{color:var(--muted)}
-.avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.avbtn{background:#f4f6fa;border-radius:14px;padding:8px 2px;font-size:28px;border:3px solid transparent}.avbtn small{display:block;font-size:11px;font-weight:800;color:var(--muted)}.avbtn.on{border-color:var(--gold);background:#fff8e0}
-.modal{position:fixed;inset:0;background:#17233f99;z-index:50;display:grid;place-items:center;padding:16px;overflow:auto}
-.modal>div{background:#fff;border-radius:22px;padding:24px;max-width:520px;width:100%;max-height:92vh;overflow:auto;animation:pop .25s}
-.modal h2{font:700 26px Fredoka;margin:0 0 10px;color:var(--navy)}
-#toasts{position:fixed;top:78px;right:14px;z-index:60;display:flex;flex-direction:column;gap:8px;max-width:calc(100vw - 28px)}
-.toast{background:var(--navy);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;box-shadow:0 8px 22px #0004;animation:pop .25s}
-.toast.ach{background:#fff4d6;color:#5a3d0b;border:2px solid var(--gold)}
-.footer{text-align:center;color:#8791a3;font-size:12px;margin-top:35px}
-.rpt h3{border-bottom:2px solid var(--line);padding-bottom:6px}
-.score-big{font:700 64px Fredoka;color:var(--navy)}
-@media(max-width:760px){
- .hero{grid-template-columns:1fr;padding:26px}.hero-art{display:none}
- .worlds,.grid2,.level-list{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}
- .feature-grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}
- .shell{padding:18px 12px 100px}.pill{padding:6px 9px;font-size:12px}
- .nav{position:fixed;top:auto;bottom:0;left:0;right:0;justify-content:space-around;gap:0;padding:6px 4px;border-top:1px solid var(--line);border-bottom:0;box-shadow:0 -4px 14px #0001}
- .nv{flex-direction:column;gap:0;padding:5px 6px;font-size:10px}.nv small{font-size:20px}
- .map{aspect-ratio:4/5}.pb{grid-template-columns:110px 1fr 50px}
- .avgrid{grid-template-columns:repeat(3,1fr)}.answers{grid-template-columns:1fr}
- #toasts{top:74px}
-}
-@media print{.topbar,.nav,.noprint,.footer,#toasts{display:none!important}.panel{box-shadow:none;border:0}body{background:#fff}}
-</style>
-</head>
-<body>
-<div class="app">
-<header class="topbar">
- <div class="brand" onclick="go('home')">✦ Math<span>Quest</span></div>
- <div class="top-right"><div class="pill lv">Lv <span id="chLv">1</span></div><div class="pill">⭐ <span id="chXp">0</span></div><div class="pill">🪙 <span id="chCoin">0</span></div><button class="avatar" id="avatarBtn" onclick="openProfile(false)" aria-label="Profil">🧭</button></div>
-</header>
-<nav class="nav" id="nav">
- <a class="nv" data-v="home" href="#/home"><small>🏠</small>Beranda</a>
- <a class="nv" data-v="map" href="#/map"><small>🗺️</small>Story</a>
- <a class="nv" data-v="games" href="#/games"><small>🎮</small>Games</a>
- <a class="nv" data-v="battle" href="#/battle"><small>⚔️</small>Battle</a>
- <a class="nv" data-v="ach" href="#/ach"><small>🏅</small>Prestasi</a>
- <a class="nv" data-v="board" href="#/board"><small>🏆</small>Peringkat</a>
- <a class="nv" data-v="progress" href="#/progress"><small>📈</small>Progres</a>
-</nav>
-<main class="shell"><div id="view"></div><div class="footer">MATHQUEST · Media Pembelajaran Matematika SMA · Peluang &amp; Statistika</div></main>
-<div id="toasts"></div>
-<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div id="modalBody"></div></div>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--ink:#35415b;--muted:#7d879a;--paper:#fffaf0;--cream:#fff3d9;--coral:#f18d79;--gold:#f5c15e;--mint:#91cdb0;--blue:#8ec5df;--lilac:#b5a5df;--line:#eee5d5;--shadow:0 12px 30px #62513a14}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Nunito,system-ui,sans-serif;background:#f8f4e9;background-image:radial-gradient(#e9ddc8 0.7px,transparent .7px);background-size:18px 18px}button{font:inherit;cursor:pointer;border:0;color:inherit}button:focus-visible{outline:3px solid #638fbd;outline-offset:3px}.app{max-width:1440px;margin:auto;min-height:100vh;background:#fffaf0d9;box-shadow:0 0 60px #7e674015}.top{height:76px;padding:0 clamp(16px,4vw,54px);display:flex;align-items:center;justify-content:space-between;background:#fffdf8;border-bottom:2px solid #f1e8d8;position:sticky;top:0;z-index:10}.logo{display:flex;align-items:center;gap:10px;font:800 25px 'Baloo 2';color:#4b5470}.logo-mark{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#ffcf72,#f49b7f);display:grid;place-items:center;font-size:24px;box-shadow:inset 0 -4px #d9875d55,0 4px 0 #ead5b6}.logo span{color:#e58a65}.top-actions{display:flex;align-items:center;gap:10px}.chip{border:1px solid #f0e3ce;background:#fff6e4;border-radius:30px;padding:8px 13px;font-weight:900;font-size:13px}.avatar-mini{width:40px;height:40px;border-radius:50%;background:#e5f2e7;display:grid;place-items:center;font-size:23px;border:2px solid white;box-shadow:0 2px 0 #d7e2d5}.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:calc(100vh - 76px)}.sidebar{padding:26px 16px;background:#fffdf8;border-right:2px solid #f1e8d8}.side-label{font-size:10px;letter-spacing:1.8px;font-weight:1000;color:#a4a0a0;margin:8px 12px 12px}.nav{display:flex;flex-direction:column;gap:7px}.nav button{padding:12px 13px;border-radius:14px;background:transparent;text-align:left;font-weight:900;color:#737d90;display:flex;align-items:center;gap:12px;transition:.18s}.nav button span{font-size:20px;width:24px;text-align:center}.nav button:hover,.nav button.active{background:#fff0d3;color:#66533d;transform:translateX(2px)}.side-note{margin-top:35px;padding:15px;border-radius:18px;background:#edf6ed;border:1px dashed #b9d8bd;font-size:12px;line-height:1.55}.side-note b{display:block;font-size:14px;margin-bottom:4px}.main{padding:clamp(18px,3vw,38px);min-width:0}.view{max-width:1120px;margin:auto}.hero{border-radius:28px;padding:clamp(23px,4vw,40px);background:linear-gradient(120deg,#f8c978,#f7a98d 65%,#e9b5a7);position:relative;overflow:hidden;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;min-height:280px;box-shadow:0 7px 0 #e7b982,0 16px 30px #a16c4520}.hero:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:#fff5d855;right:10%;top:-120px}.hero-copy{position:relative;z-index:1}.kicker{font-size:11px;letter-spacing:2px;font-weight:1000;color:#825b4d}.hero h1{font:800 clamp(34px,5vw,55px)/.98 'Baloo 2';margin:10px 0;color:#594d55;max-width:580px}.hero p{max-width:500px;line-height:1.65;color:#705d5d;font-weight:700;margin:0 0 20px}.btn{padding:11px 18px;border-radius:13px;font-weight:1000;box-shadow:0 4px 0 #d79a43;background:var(--gold);color:#614b2b;transition:.18s}.btn:hover{transform:translateY(-2px);filter:brightness(1.03)}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #d79a43}.btn.soft{background:#edf2fa;box-shadow:0 4px 0 #d5dce9;color:#59657b}.btn.mint{background:#a9d9bd;box-shadow:0 4px 0 #78b58f;color:#355d48}.btn.coral{background:#f6ad9c;box-shadow:0 4px 0 #d98272;color:#704b48}.section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 14px}.section-head h2{font:800 25px 'Baloo 2';margin:0;color:#4d5871}.section-head p{margin:2px 0 0;color:var(--muted);font-size:13px;font-weight:700}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:20px}.stat{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:0 4px 12px #5e4e3210}.stat-icon{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;font-size:22px}.stat strong{display:block;font:800 22px 'Baloo 2'}.stat small{color:var(--muted);font-weight:800}.worlds{display:grid;grid-template-columns:1fr 1fr;gap:16px}.world{border-radius:23px;min-height:225px;padding:21px;position:relative;overflow:hidden;color:#fff;box-shadow:0 7px 0 #00000013,0 14px 24px #62513a14}.world.prob{background:linear-gradient(135deg,#78b8bb,#468b92)}.world.stat{background:linear-gradient(135deg,#a99bd3,#7772b1)}.world:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff20;right:-35px;bottom:-75px}.world-art{position:absolute;right:15px;top:12px;font-size:72px;filter:drop-shadow(0 8px 3px #243e3b30);transform:rotate(-7deg)}.world h3{font:800 26px 'Baloo 2';margin:7px 0}.world p{font-size:13px;line-height:1.5;max-width:290px;color:#ffffffed;font-weight:700}.world .btn{background:#fff;color:#52616b;box-shadow:0 4px 0 #dce4df;position:relative;z-index:1}.world-progress{height:7px;background:#ffffff55;border-radius:20px;max-width:220px;margin:12px 0 5px;overflow:hidden}.world-progress i{display:block;height:100%;background:#ffdf87;border-radius:20px}.world small{font-weight:900;color:#ffffffed}.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.feature{background:#fff;border:1px solid var(--line);border-radius:17px;text-align:center;padding:16px 10px;box-shadow:0 4px 12px #5e4e3209}.feature span{font-size:27px}.feature b{display:block;margin:5px 0 2px}.feature small{font-size:11px;color:var(--muted);font-weight:700}.panel{background:#fffdf8;border:1px solid var(--line);border-radius:23px;padding:clamp(19px,3vw,30px);box-shadow:var(--shadow);max-width:900px;margin:8px auto}.hidden{display:none!important}.back{background:transparent;color:#8290a0;font-weight:1000;padding:3px 0 13px}.panel h2{font:800 31px 'Baloo 2';color:#4d5871;margin:4px 0}.panel p{line-height:1.7;color:#6e788b}.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:1000;color:#b28a55}.levels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.level{border:1px solid #eee5d5;background:#fff;border-radius:17px;padding:16px;box-shadow:0 4px 10px #65543a09}.level h4{font:800 17px 'Baloo 2';margin:0 0 3px}.level p{font-size:12px;margin:0 0 12px}.level button{width:100%}.lesson-card{background:#f1f7f4;border:1px solid #dcece1;border-radius:17px;padding:18px;margin:17px 0}.lesson-card b{color:#54745e}.formula{font:800 22px 'Baloo 2';text-align:center;color:#547d68;padding:13px}.question{font-weight:1000;font-size:18px;margin:18px 0;color:#4d5871}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{padding:13px;text-align:left;border:2px solid #eee9df;border-radius:13px;background:white;font-weight:900}.answer:hover{border-color:#9ccbb0;background:#f6fbf7}.answer.correct{border-color:#78bd98;background:#e9f7ed}.answer.wrong{border-color:#ed9d8e;background:#fff0ec}.feedback{padding:14px;border-radius:13px;margin:15px 0;font-weight:900}.feedback.good{background:#eaf7ed;color:#467d56}.feedback.bad{background:#fff0ec;color:#a45a4e}.stage{background:linear-gradient(135deg,#edf7f3,#f7f0ff);border-radius:18px;padding:20px;text-align:center;margin:16px 0}.die{font-size:80px;line-height:1.3}.chart{height:155px;display:flex;align-items:end;justify-content:center;gap:15px;margin:16px}.bar{width:48px;border-radius:9px 9px 0 0;background:#85c4d2;position:relative}.bar em{position:absolute;top:-22px;left:0;right:0;font-style:normal;font-weight:1000}.bar small{position:absolute;bottom:-24px;left:0;right:0;font-weight:900}.profile-row{display:flex;gap:14px;align-items:center;background:#fff6e5;border-radius:18px;padding:15px;margin:16px 0}.profile-avatar{font-size:42px;width:66px;height:66px;display:grid;place-items:center;border-radius:18px;background:#e5f2e7}.input{width:100%;padding:12px 14px;border:2px solid #eee5d5;border-radius:12px;font:800 15px Nunito;color:var(--ink);background:#fff}.badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.badge-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}.badge-card span{font-size:32px}.badge-card b{display:block;margin:5px}.badge-card small{color:var(--muted)}.muted{color:var(--muted)}.footer{text-align:center;color:#a5a1a0;font-size:11px;font-weight:800;padding:28px 0 10px}
+
+/* === KARAKTER UTAMA ALGEO YANG DISEMPURNAKAN === */
+.algeo-hero{position:relative;z-index:2;display:grid;place-items:center;min-height:245px;cursor:pointer}
+.algeo-stage{position:relative;width:270px;height:270px;display:grid;place-items:center;animation:algeoFloat 3.4s ease-in-out infinite;transition:transform .25s ease}
+.algeo-hero:hover .algeo-stage{transform:scale(1.04)}
+.algeo-halo{position:absolute;width:225px;height:225px;border-radius:50%;background:radial-gradient(circle,#fff9e6 35%,#ffe5a8 70%,transparent 72%);box-shadow:0 0 35px #fff5c899;z-index:0}
+.algeo-svg{width:240px;height:255px;position:relative;z-index:1;filter:drop-shadow(0 12px 10px #6d473238);overflow:visible}
+.algeo-spark{position:absolute;font-size:24px;color:#fff8c8;animation:algeoSpark 2.2s ease-in-out infinite;pointer-events:none;z-index:3}
+.algeo-spark.s1{top:10px;right:18px}
+.algeo-spark.s2{bottom:32px;left:12px;font-size:18px;animation-delay:1s}
+@keyframes algeoFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+@keyframes algeoSpark{0%,100%{opacity:.45;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.25) rotate(20deg)}}
+
+/* Ekspresi & Animasi Bagian Tubuh SVG */
+.algeo-arm-r{transform-origin:178px 168px;animation:waveArm 2.8s ease-in-out infinite}
+@keyframes waveArm{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-11deg)}}
+.algeo-eyes-blink{transform-origin:130px 118px;animation:blinkEyes 4.5s infinite}
+@keyframes blinkEyes{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(0.08)}}
+.algeo-card{display:grid;grid-template-columns:190px 1fr;gap:22px;align-items:center;margin-top:20px;padding:20px 24px;border-radius:23px;background:linear-gradient(120deg,#fff6df,#fdeadd);border:1.5px solid #f0dfc5;box-shadow:var(--shadow);overflow:hidden}
+.algeo-portrait{width:170px;height:170px;margin:auto;border-radius:50%;background:radial-gradient(circle,#fffdf7,#ffebc4);border:4px solid #fff;box-shadow:0 8px 18px #8c684522;display:grid;place-items:center;overflow:hidden;position:relative}
+.algeo-portrait svg{width:155px;height:165px;transform:translateY(8px)}
+.algeo-card h3{font:800 24px 'Baloo 2';margin:0 0 4px;color:#66513e}
+.algeo-card p{margin:5px 0 12px;line-height:1.6;color:#76685b;font-weight:700}
+.algeo-moods{display:flex;gap:8px;flex-wrap:wrap}
+.algeo-moods button{padding:8px 13px;border-radius:12px;background:#fff;border:1.5px solid #eadcc7;font-weight:900;font-size:12px;transition:.15s}
+.algeo-moods button:hover{transform:translateY(-1px)}
+.algeo-moods button.active{background:#ffe2a8;border-color:#e6b85e;box-shadow:0 3px 0 #e6c17d}
+#algeoLine{font-weight:900;color:#8c6845;min-height:24px;background:#ffffff88;padding:6px 12px;border-radius:10px;display:inline-block}
+
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:sticky;top:76px;z-index:8;border-right:0;border-bottom:2px solid #f1e8d8;padding:8px 12px;overflow:auto}.side-label,.side-note{display:none}.nav{flex-direction:row;min-width:max-content}.nav button{padding:8px 12px;font-size:12px}.nav button span{font-size:17px;width:auto}.main{padding:18px}.hero{min-height:240px}}
+@media(max-width:600px){.top{height:65px}.layout{min-height:calc(100vh - 65px)}.sidebar{top:65px}.logo{font-size:21px}.chip{padding:7px 9px;font-size:11px}.hero{grid-template-columns:1fr;padding:23px;min-height:260px}.algeo-hero{position:absolute;right:-15px;bottom:-10px;min-height:0;width:175px;height:185px;opacity:.95}.algeo-stage,.algeo-svg{width:170px;height:175px}.algeo-halo{width:140px;height:140px}.hero-copy{z-index:2}.hero h1{font-size:37px;max-width:300px}.hero p{font-size:13px;max-width:255px}.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}.worlds{grid-template-columns:1fr}.world{min-height:210px}.feature-grid{grid-template-columns:1fr 1fr}.levels{grid-template-columns:1fr}.answers{grid-template-columns:1fr 1fr}.badge-grid{grid-template-columns:1fr 1fr}.section-head h2{font-size:22px}.algeo-card{grid-template-columns:1fr;text-align:center}.algeo-moods{justify-content:center}}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="logo"><div class="logo-mark">📖</div>Math<span>Quest</span><small style="font:900 10px Nunito;color:#b5a18a;margin-left:2px">2.0</small></div><div class="top-actions"><div class="chip">⭐ <span id="topXP">0</span> XP</div><div class="chip">🪙 <span id="topCoins">0</span></div><div class="avatar-mini" id="topAvatar">🧭</div></div></header>
+<div class="layout"><aside class="sidebar"><div class="side-label">YOUR ADVENTURE</div><nav class="nav">
+<button class="active" data-view="home" onclick="go('home',this)"><span>🏡</span> Beranda</button>
+<button data-view="story" onclick="go('story',this)"><span>🗺️</span> Story Map</button>
+<button data-view="games" onclick="go('games',this)"><span>🎮</span> Mini Games</button>
+<button data-view="battle" onclick="go('battle',this)"><span>⚔️</span> Quiz Battle</button>
+<button data-view="achievements" onclick="go('achievements',this)"><span>🏅</span> Prestasi</button>
+<button data-view="leaderboard" onclick="go('leaderboard',this)"><span>🏆</span> Peringkat</button>
+<button data-view="progress" onclick="go('progress',this)"><span>📚</span> Progres</button>
+<button data-view="profile" onclick="go('profile',this)"><span>🧑‍🚀</span> Profil</button>
+</nav><div class="side-note"><b>🌱 Catatan petualang</b>Setiap tantangan adalah kesempatan untuk menemukan hal baru. Pelan-pelan, yang penting terus mencoba!</div></aside>
+<main class="main">
+<section id="home" class="view">
+<div class="hero">
+  <div class="hero-copy">
+    <div class="kicker">✦ THE STORYBOOK ADVENTURE ✦</div>
+    <h1>Halo, Petualang!</h1>
+    <p>Dua dunia matematika menunggumu. Buka peta, pecahkan misteri angka, dan kumpulkan bintang pengetahuan!</p>
+    <button class="btn" onclick="go('story')">Mulai petualangan&nbsp; →</button>
+  </div>
+  <!-- Karakter Utama Algeo (Vector SVG Bersih Tanpa Kotak Background) -->
+  <div class="algeo-hero" onclick="cycleMood()" title="Klik Algeo untuk menyapanya!">
+    <div class="algeo-stage">
+      <div class="algeo-halo"></div>
+      <span class="algeo-spark s1">✦</span>
+      <span class="algeo-spark s2">✧</span>
+      <div id="heroSvgWrap"></div>
+    </div>
+  </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Kartu Interaktif Pendamping Algeo -->
+<div class="algeo-card">
+  <div class="algeo-portrait" id="portraitSvgWrap"></div>
+  <div>
+    <div class="eyebrow">✦ PEMANDU PETUALANGANMU ✦</div>
+    <h3>Algeo si Penjelajah Angka</h3>
+    <p id="algeoLine">“Siap menaklukkan misteri Peluang dan Statistika hari ini?”</p>
+    <div class="algeo-moods">
+      <button class="active" onclick="setMood('happy',this)">😊 Ceria</button>
+      <button onclick="setMood('think',this)">🤔 Berpikir</button>
+      <button onclick="setMood('eureka',this)">💡 Eureka!</button>
+      <button onclick="setMood('cheer',this)">🎉 Semangat</button>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-icon" style="background:#fff2d6">⭐</div><div><strong id="homeXP">0 XP</strong><small>Total Poin Pengalaman</small></div></div>
+  <div class="stat"><div class="stat-icon" style="background:#e5f5ec">🗺️</div><div><strong id="homeDone">0 / 8</strong><small>Misi Selesai</small></div></div>
+  <div class="stat"><div class="stat-icon" style="background:#e8f2fa">🏅</div><div><strong id="homeBadges">0 / 6</strong><small>Lencana Terkumpul</small></div></div>
+</div>
+
+<div class="section-head"><div><h2>Pilih Dunia Petualangan</h2><p>Mulai dari Pulau Peluang atau Hutan Statistika</p></div></div>
+<div class="worlds">
+  <div class="world prob"><div class="world-art">🎲</div><div class="kicker" style="color:#e6fffd">BAB I</div><h3>Pulau Peluang</h3><p>Lempar dadu ajaib, putar roda takdir, dan hitung peluang kejadian di pelabuhan misterius.</p><div class="world-progress"><i id="probBar" style="width:0%"></i></div><small id="probText">0 dari 4 misi selesai</small><br><br><button class="btn" onclick="go('story')">Jelajahi Pulau →</button></div>
+  <div class="world stat"><div class="world-art">📊</div><div class="kicker" style="color:#f4eeff">BAB II</div><h3>Hutan Statistika</h3><p>Baca diagram pohon kuno, temukan mean, median, dan modus untuk membuka gerbang kristal.</p><div class="world-progress"><i id="statBar" style="width:0%"></i></div><small id="statText">0 dari 4 misi selesai</small><br><br><button class="btn" onclick="go('story')">Masuki Hutan →</button></div>
+</div>
+</section>
+
+<!-- Placeholder panel navigasi lainnya agar aplikasi tetap berjalan utuh -->
+<section id="story" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali ke Beranda</button><div class="eyebrow">STORY MAP</div><h2>Peta Dunia MathQuest</h2><p>Pilih misi untuk memulai latihan interaktif bersama Algeo.</p><div class="levels"><div class="level"><h4>🎲 Misi 1: Ruang Sampel</h4><p>Mengenal titik sampel pelemparan koin dan dadu.</p><button class="btn mint" onclick="completeDemo(1)">Mainkan Misi</button></div><div class="level"><h4>📊 Misi 2: Mean & Median</h4><p>Mencari nilai rata-rata dan nilai tengah data.</p><button class="btn" onclick="completeDemo(2)">Mainkan Misi</button></div></div></div></section>
+<section id="games" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Mini Games</h2><p>Uji ketangkasan berhitungmu di arena permainan singkat!</p></div></section>
+<section id="battle" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Quiz Battle</h2><p>Kalahkan penjaga gerbang angka dengan menjawab cepat.</p></div></section>
+<section id="achievements" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Prestasi & Lencana</h2><p>Kumpulkan semua lencana petualang matematika.</p></div></section>
+<section id="leaderboard" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Peringkat Petualang</h2><p>Lihat posisimu di papan skor akademi.</p></div></section>
+<section id="progress" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Catatan Progres</h2><p>Pantau perkembangan belajarmu di setiap bab.</p></div></section>
+<section id="profile" class="view hidden"><div class="panel"><button class="back" onclick="go('home')">← Kembali</button><h2>Profil Petualang</h2><p>Atur nama dan avatar petualangmu.</p></div></section>
+
+<footer class="footer">MathQuest 2.0 • The Storybook Adventure</footer>
+</main></div></div>
+
 <script>
-'use strict';
-/* ============ UTIL ============ */
-const KEY='mathquestSave_v2';
-const $=(s,r=document)=>r.querySelector(s);
-const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const pick=a=>a[Math.floor(Math.random()*a.length)];
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
-const gcd=(a,b)=>b?gcd(b,a%b):a;
-const frac=(n,d)=>{const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):n+'/'+d};
-const fmt=n=>String(Math.round(n*100)/100).replace('.',',');
-const sum=a=>a.reduce((x,y)=>x+y,0);
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const PAL=['#75b8e8','#9c8be8','#70c7a6','#f2a16f','#f27b68','#f4bd55'];
-const FACE=['⚀','⚁','⚂','⚃','⚄','⚅'];
-const TIMERS=new Set();
-const later=(fn,ms)=>{const id=setTimeout(()=>{TIMERS.delete(id);fn()},ms);TIMERS.add(id);return id};
-function parseNum(s){s=String(s).trim().replace(',','.');if(/^-?\d+(\.\d+)?\/\d+(\.\d+)?$/.test(s)){const [a,b]=s.split('/').map(Number);return a/b}return /^-?\d+(\.\d+)?$/.test(s)?Number(s):NaN}
-function parseList(s){return String(s).split(/[\s,;]+/).filter(Boolean).map(x=>Number(x.replace(',','.'))).filter(Number.isFinite).slice(0,30)}
-const median=a=>{const s=[...a].sort((x,y)=>x-y),n=s.length;return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2};
-function modes(a){const c={};a.forEach(v=>c[v]=(c[v]||0)+1);const mx=Math.max(...Object.values(c));return mx===1?[]:Object.keys(c).filter(k=>c[k]===mx).map(Number)}
+// Generator Ilustrasi Karakter Utama ALGEO (Vector SVG Storybook Style)
+function renderAlgeoSVG(mood = 'happy') {
+  const expressions = {
+    happy: {
+      eyes: `<g class="algeo-eyes-blink">
+               <circle cx="108" cy="118" r="7.5" fill="#35415b"/>
+               <circle cx="152" cy="118" r="7.5" fill="#35415b"/>
+               <circle cx="110.5" cy="115.5" r="2.8" fill="#fff"/>
+               <circle cx="154.5" cy="115.5" r="2.8" fill="#fff"/>
+             </g>`,
+      brows: `<path d="M98 106 Q108 101 117 106" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+              <path d="M143 106 Q152 101 162 106" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>`,
+      mouth: `<path d="M119 135 Q130 147 141 135" stroke="#35415b" stroke-width="3.5" stroke-linecap="round" fill="#f18d79"/>`,
+      extra: ``
+    },
+    think: {
+      eyes: `<g class="algeo-eyes-blink">
+               <circle cx="108" cy="116" r="7" fill="#35415b"/>
+               <circle cx="152" cy="116" r="7" fill="#35415b"/>
+               <circle cx="106" cy="113.5" r="2.5" fill="#fff"/>
+               <circle cx="150" cy="113.5" r="2.5" fill="#fff"/>
+             </g>`,
+      brows: `<path d="M98 108 Q108 106 117 108" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+              <path d="M143 102 Q152 96 162 103" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>`,
+      mouth: `<path d="M123 138 Q131 135 138 139" stroke="#35415b" stroke-width="3.5" stroke-linecap="round" fill="none"/>`,
+      extra: `<text x="186" y="75" font-family="Baloo 2" font-weight="800" font-size="24" fill="#7772b1">?</text>
+              <circle cx="182" cy="92" r="4" fill="#b5a5df"/>
+              <circle cx="175" cy="103" r="2.5" fill="#b5a5df"/>`
+    },
+    eureka: {
+      eyes: `<path d="M100 119 Q108 110 116 119" stroke="#35415b" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+             <path d="M144 119 Q152 110 160 119" stroke="#35415b" stroke-width="3.8" stroke-linecap="round" fill="none"/>`,
+      brows: `<path d="M98 103 Q108 97 117 103" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+              <path d="M143 103 Q152 97 162 103" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>`,
+      mouth: `<ellipse cx="130" cy="138" rx="8" ry="9" fill="#e56b6f" stroke="#35415b" stroke-width="3"/>`,
+      extra: `<g transform="translate(178,42)">
+                <circle cx="16" cy="16" r="14" fill="#ffe680" stroke="#f5b841" stroke-width="2.5"/>
+                <rect x="11" y="29" width="10" height="6" rx="2" fill="#8d99ae"/>
+                <path d="M16 -5 V-11 M34 5 L39 1 M34 27 L39 31 M-2 5 L-7 1" stroke="#f5b841" stroke-width="3" stroke-linecap="round"/>
+              </g>`
+    },
+    cheer: {
+      eyes: `<path d="M100 116 L114 119 L100 123" stroke="#35415b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+             <path d="M160 116 L146 119 L160 123" stroke="#35415b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+      brows: `<path d="M97 104 Q108 98 117 104" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+              <path d="M143 104 Q152 98 163 104" stroke="#5a3d2b" stroke-width="3.2" stroke-linecap="round" fill="none"/>`,
+      mouth: `<path d="M116 133 Q130 152 144 133 Z" fill="#e56b6f" stroke="#35415b" stroke-width="3" stroke-linejoin="round"/>`,
+      extra: `<text x="58" y="75" font-size="22">⭐</text><text x="182" y="80" font-size="20">✨</text>`
+    }
+  };
 
-/* ============ SAVE ============ */
-const defaults=()=>({name:'',avatar:'🧭',owned:['🧭','🦊','🐼'],xp:0,coins:0,earned:0,prog:{},ach:[],games:{},played:{},stats:{rolls:0,spins:0,answered:0,correct:0},battle:{runs:[],best:0,wins:0,combo:0},board:[],mute:false,teacher:false});
-let S;
-function load(){try{const r=JSON.parse(localStorage.getItem(KEY)||'null')||{};const d=defaults();S=Object.assign(d,r);S.stats=Object.assign(defaults().stats,r.stats||{});S.battle=Object.assign(defaults().battle,r.battle||{})}catch(e){S=defaults()}}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function save(){persist();checkAch();updateTop()}
-const level=()=>1+Math.floor(S.xp/100);
-const RANKS=['Pemula','Penjelajah','Navigator','Cendekia','Master','Legenda'];
-const rank=()=>RANKS[Math.min(level()-1,RANKS.length-1)];
-function addReward(xp,coins){S.xp+=xp;S.coins+=coins;S.earned+=coins}
-function updateTop(){$('#chLv').textContent=level();$('#chXp').textContent=S.xp;$('#chCoin').textContent=S.coins;$('#avatarBtn').textContent=S.avatar}
-let AC;
-function sfx(t){if(S.mute)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);const f={ok:[660,880],no:[220,160],win:[523,784],tap:[440,480]}[t]||[440,440];o.frequency.setValueAtTime(f[0],AC.currentTime);o.frequency.setValueAtTime(f[1],AC.currentTime+.1);g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.25);o.start();o.stop(AC.currentTime+.26)}catch(e){}}
-function toast(html,cls=''){const d=document.createElement('div');d.className='toast '+cls;d.innerHTML=html;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),3600)}
-function openModal(h){$('#modalBody').innerHTML=h;$('#modal').classList.remove('hidden')}
-function closeModal(){$('#modal').classList.add('hidden')}
+  const exp = expressions[mood] || expressions.happy;
 
-/* ============ CHARTS ============ */
-const charts={};
-function killChart(id){if(charts[id]){charts[id].destroy();delete charts[id]}}
-function killCharts(){Object.keys(charts).forEach(killChart)}
-function chartCfg(c){
- const pie=c.type==='pie'||c.type==='doughnut';
- const labels=c.pct?c.labels.map((l,i)=>l+' ('+c.data[i]+'%)'):c.labels;
- const ds={label:c.title||'',data:c.data};
- if(pie){ds.backgroundColor=c.colors||PAL;ds.borderColor='#fff';ds.borderWidth=2}
- else if(c.type==='line'){ds.borderColor='#75b8e8';ds.backgroundColor='#75b8e8';ds.tension=.3;ds.pointRadius=5;ds.fill=false}
- else{ds.backgroundColor=c.data.map((_,i)=>PAL[i%PAL.length]);ds.borderRadius=8}
- return {type:c.type,data:{labels,datasets:[ds]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:pie,position:'bottom'},title:{display:!!c.title,text:c.title}},scales:pie?{}:{y:{beginAtZero:true,max:c.max,ticks:{precision:0}}}}};
-}
-function chartBox(id,c,cls=''){return '<div class="chartbox '+cls+'"><canvas id="'+id+'"></canvas></div>'}
-function mountChart(id,c){
- const el=document.getElementById(id);if(!el)return;
- if(!window.Chart){const bx=el.parentElement;bx.style.height='auto';bx.innerHTML='<table class="tbl"><tr>'+c.labels.map(l=>'<th>'+l+'</th>').join('')+'</tr><tr>'+c.data.map(d=>'<td>'+d+(c.pct?'%':'')+'</td>').join('')+'</tr></table>';return}
- killChart(id);charts[id]=new Chart(el,chartCfg(c));
-}
+  return `
+  <svg class="algeo-svg" viewBox="0 0 260 270" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="capeGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#4e9a9e"/>
+        <stop offset="100%" stop-color="#356e73"/>
+      </linearGradient>
+      <linearGradient id="hatGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f7c868"/>
+        <stop offset="100%" stop-color="#e39d42"/>
+      </linearGradient>
+      <linearGradient id="tunicGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fffdf8"/>
+        <stop offset="100%" stop-color="#f3e7d3"/>
+      </linearGradient>
+    </defs>
 
-/* ============ KONTEN ============ */
-const WN={prob:'Probability Land',stat:'Statistics City'};
-const MISSIONS=[
-{id:'p1',world:'prob',emoji:'🪙',abbr:'Ruang Sampel',title:'Ruang Sampel & Titik Sampel',short:'Catat semua kemungkinan hasil percobaan.',
- story:'Kapalmu merapat di <b>Probability Land</b>. Gerbang pulau terkunci oleh peti ajaib berisi koin dan dadu. “Peti hanya terbuka bila kamu mencatat <i>semua</i> kemungkinan hasil — tidak boleh ada yang terlewat!” kata Profesor Hootie.',
- win:'Klik! Peti terbuka dan jalan setapak menuju Hutan Peluang muncul di depanmu.',
- pages:[
- {h:'Percobaan & titik sampel',t:'<b>Percobaan</b> adalah kegiatan yang hasilnya tidak bisa dipastikan sebelumnya, misalnya melempar koin atau dadu. Setiap hasil yang mungkin muncul disebut <b>titik sampel</b>.',ex:'Melempar koin satu kali menghasilkan titik sampel A (angka) atau G (gambar).'},
- {h:'Ruang sampel',t:'Himpunan <b>semua</b> titik sampel disebut <b>ruang sampel</b>, dilambangkan S. Banyak anggotanya ditulis n(S).',f:'S = {A, G} → n(S) = 2',ex:'Dadu: S = {1, 2, 3, 4, 5, 6}, sehingga n(S) = 6.'},
- {h:'Aturan perkalian',t:'Jika dua percobaan dilakukan bersamaan, banyak titik sampelnya adalah hasil kali banyak titik sampel masing-masing percobaan.',f:'n(S) = n(S₁) × n(S₂)',ex:'Satu dadu dan satu koin: 6 × 2 = 12 titik sampel.'},
- {h:'Coba sendiri!',t:'Pilih sebuah percobaan dan lihat seluruh ruang sampelnya.',demo:'space'}],
- qs:[
- {type:'mc',t:'Dua koin dilempar bersamaan. Banyak titik sampel pada ruang sampelnya adalah …',o:['2','3','4','6'],a:2,e:'S = {AA, AG, GA, GG}, jadi n(S) = 4 (atau 2 × 2).'},
- {type:'num',t:'Sebuah dadu dan sebuah koin dilempar bersamaan. Berapa n(S)?',a:12,e:'n(S) = 6 × 2 = 12.'},
- {type:'mc',t:'Sebuah kartu bernomor 1 sampai 10 diambil satu. Banyak titik sampel pada kejadian “terambil bilangan prima” adalah …',o:['3','4','5','6'],a:1,e:'Bilangan prima dari 1–10: 2, 3, 5, 7 → ada 4 titik sampel.'}]},
-{id:'p2',world:'prob',emoji:'🎯',abbr:'Peluang',title:'Peluang Suatu Kejadian',short:'Hitung seberapa mungkin kejadian terjadi.',
- story:'Di tengah Hutan Peluang, sebuah jembatan tali hanya mau turun bila kamu bisa menghitung <b>seberapa mungkin</b> sesuatu terjadi. “Peluang itu seperti menebak dengan cerdas,” bisik Profesor Hootie.',
- win:'Jembatan turun perlahan. Di seberang, tampak laboratorium kecil penuh koin berputar.',
- pages:[
- {h:'Apa itu peluang?',t:'<b>Peluang</b> adalah ukuran seberapa mungkin suatu <b>kejadian</b> terjadi. Kejadian adalah himpunan bagian dari ruang sampel.',ex:'Kejadian “muncul bilangan genap” pada dadu = {2, 4, 6}.'},
- {h:'Rumus peluang',t:'Jika semua titik sampel memiliki kesempatan yang sama, peluang kejadian A adalah perbandingan banyak anggota A dengan banyak anggota ruang sampel.',f:'P(A) = n(A) / n(S)',ex:'Peluang muncul bilangan genap = 3/6 = 1/2.'},
- {h:'Batas nilai peluang',t:'Nilai peluang selalu di antara 0 dan 1. <b>P = 0</b> berarti kejadian mustahil, <b>P = 1</b> berarti kejadian pasti.',f:'0 ≤ P(A) ≤ 1',ex:'Peluang muncul angka 7 pada dadu = 0 (mustahil).'},
- {h:'Coba sendiri!',t:'Atur isi kantong kelereng dan amati peluang tiap warna.',demo:'prob'}],
- qs:[
- {type:'mc',t:'Sebuah dadu dilempar sekali. Peluang muncul mata dadu yang merupakan faktor dari 6 adalah …',o:['1/3','1/2','2/3','5/6'],a:2,e:'Faktor 6: 1, 2, 3, 6 → 4 hasil. P = 4/6 = 2/3.'},
- {type:'mc',t:'Dalam kantong ada 5 kelereng merah, 3 biru, dan 2 hijau. Satu kelereng diambil acak. Peluang terambil kelereng biru adalah …',o:['3/10','3/7','1/3','1/2'],a:0,e:'n(biru) = 3 dan n(S) = 5 + 3 + 2 = 10, sehingga P = 3/10.'},
- {type:'mc',t:'Dua koin dilempar bersamaan. Peluang muncul tepat satu angka adalah …',o:['1/4','1/2','3/4','1'],a:1,e:'Hasil yang sesuai: AG dan GA → 2 dari 4. P = 2/4 = 1/2.'}]},
-{id:'p3',world:'prob',emoji:'🧪',abbr:'Teoretik/Empirik',title:'Peluang Teoretik & Empirik',short:'Bandingkan prediksi dengan hasil percobaan.',
- story:'Laboratorium Eksperimen penuh koin yang berloncatan. “Teori bilang peluangnya ½, tapi apakah kenyataannya selalu begitu? Mari kita uji!” seru sang Profesor.',
- win:'Hasil percobaanmu makin mendekati teori! Pintu menuju Menara Frekuensi terbuka.',
- pages:[
- {h:'Peluang teoretik',t:'<b>Peluang teoretik</b> dihitung dari model matematika, tanpa melakukan percobaan.',f:'P(A) = n(A) / n(S)',ex:'Koin: peluang teoretik muncul angka = 1/2.'},
- {h:'Peluang empirik',t:'<b>Peluang empirik</b> dihitung dari hasil percobaan yang benar-benar dilakukan.',f:'P(A) = frekuensi A / banyak percobaan',ex:'12 angka dari 20 lemparan → 12/20 = 0,6.'},
- {h:'Makin banyak, makin dekat',t:'Makin banyak percobaan dilakukan, peluang empirik cenderung mendekati peluang teoretik. Dengan sedikit percobaan, hasil bisa menyimpang cukup jauh.'},
- {h:'Coba sendiri!',t:'Lempar koin berkali-kali dan amati garis biru mendekati garis merah.',demo:'coin'}],
- qs:[
- {type:'num',t:'Sebuah dadu dilempar 60 kali. Angka 4 muncul 12 kali. Berapa peluang empirik muncul angka 4? (tulis desimal atau pecahan)',a:0.2,e:'P empirik = 12/60 = 1/5 = 0,2.'},
- {type:'mc',t:'Peluang teoretik muncul angka pada koin adalah 0,5, tetapi dalam 20 lemparan angka muncul 9 kali (0,45). Mengapa bisa berbeda?',o:['Koinnya pasti rusak','Percobaan terbatas sehingga hasil acak berfluktuasi','Rumus peluang salah','Hasil harus selalu sama dengan teori'],a:1,e:'Pada percobaan yang sedikit, hasil acak wajar menyimpang dari nilai teoretik.'},
- {type:'mc',t:'Jika banyak percobaan diperbesar terus-menerus, peluang empirik cenderung …',o:['Menjauhi peluang teoretik','Mendekati peluang teoretik','Selalu sama dengan 0','Selalu sama dengan 1'],a:1,e:'Inilah ide hukum bilangan besar.'}]},
-{id:'p4',world:'prob',emoji:'🔔',abbr:'Frek. Relatif',title:'Frekuensi Relatif & Harapan',short:'Hitung frekuensi relatif dan ramalkan hasilnya.',
- story:'Di puncak Menara Frekuensi, sebuah lonceng akan berbunyi tepat sekian kali jika kamu bisa meramal <b>frekuensi harapannya</b>. Hati-hati, jangan sampai salah hitung!',
- win:'Lonceng berdentang tepat seperti ramalanmu. Pulau Peluang tuntas! Jembatan cahaya menuju <b>Statistics City</b> pun muncul.',
- pages:[
- {h:'Frekuensi relatif',t:'<b>Frekuensi relatif</b> adalah perbandingan banyak kemunculan suatu kejadian dengan banyak percobaan. Nilainya sama dengan peluang empirik.',f:'Frekuensi relatif = f / n',ex:'Paku payung dijatuhkan 50 kali, ujung runcing ke atas 20 kali → 20/50 = 0,4.'},
- {h:'Frekuensi harapan',t:'<b>Frekuensi harapan</b> adalah perkiraan berapa kali kejadian muncul dalam n percobaan, berdasarkan peluangnya.',f:'F(A) = P(A) × n',ex:'P(angka 6) = 1/6. Dalam 60 lemparan: 1/6 × 60 = 10 kali.'},
- {h:'Coba sendiri!',t:'Bandingkan frekuensi harapan dengan hasil simulasi sebenarnya.',demo:'harapan'}],
- qs:[
- {type:'num',t:'Sebuah paku payung dijatuhkan 50 kali dan ujung runcing ke atas muncul 20 kali. Berapa frekuensi relatifnya?',a:0.4,e:'20/50 = 0,4.'},
- {type:'num',t:'Peluang hujan pada suatu hari di bulan tertentu adalah 0,3. Dalam 30 hari, berapa frekuensi harapan hari hujan?',a:9,e:'F = 0,3 × 30 = 9 hari.'},
- {type:'num',t:'Sebuah dadu dilempar 120 kali. Berapa frekuensi harapan muncul bilangan prima?',a:60,e:'Prima: 2, 3, 5 → P = 3/6 = 1/2. F = 1/2 × 120 = 60.'}]},
-{id:'s1',world:'stat',emoji:'📋',abbr:'Penyajian Data',title:'Pengumpulan & Penyajian Data',short:'Kumpulkan data dan sajikan dalam diagram.',
- story:'Selamat datang di <b>Statistics City</b>! Walikota Data kebingungan: hasil survei warga masih berantakan. “Bantu kami mengumpulkan dan menyajikan data agar mudah dibaca!”',
- win:'Hasil survei kini rapi dan indah dibaca. Walikota memberimu kunci menuju Distrik Pusat Data.',
- pages:[
- {h:'Mengumpulkan data',t:'Data dapat dikumpulkan melalui <b>observasi</b> (pengamatan), <b>wawancara</b>, <b>angket</b> (daftar pertanyaan tertulis), atau <b>eksperimen</b>. Hasilnya dicatat dalam tabel frekuensi.'},
- {h:'Menyajikan data',t:'<b>Diagram batang</b> membandingkan kategori, <b>diagram garis</b> menunjukkan perubahan dari waktu ke waktu, dan <b>diagram lingkaran</b> menunjukkan proporsi terhadap keseluruhan.',f:'Persentase = (frekuensi / total) × 100%',ex:'10 dari 40 siswa memilih basket → 25%.'},
- {h:'Coba sendiri!',t:'Ubah jumlah suara tiap ekskul, lalu ganti jenis diagramnya.',demo:'survey'}],
- qs:[
- {type:'mc',t:'Mengumpulkan data dengan membagikan daftar pertanyaan tertulis kepada responden disebut …',o:['Angket','Observasi','Eksperimen','Sensus'],a:0,e:'Daftar pertanyaan tertulis disebut angket (kuesioner).'},
- {type:'num',t:'Berdasarkan diagram, berapa persen siswa yang memilih futsal?',chart:{type:'bar',title:'Pilihan ekstrakurikuler (siswa)',labels:['Basket','Voli','Futsal','Renang'],data:[10,15,20,5]},a:40,e:'Total = 10 + 15 + 20 + 5 = 50. Futsal = 20/50 × 100% = 40%.'},
- {type:'mc',t:'Diagram yang paling tepat untuk menunjukkan proporsi bagian terhadap keseluruhan adalah …',o:['Diagram garis','Diagram lingkaran','Diagram batang','Tabel'],a:1,e:'Diagram lingkaran memperlihatkan bagian terhadap keseluruhan.'}]},
-{id:'s2',world:'stat',emoji:'🕵️',abbr:'Mean/Med/Modus',title:'Mean, Median, dan Modus',short:'Temukan ukuran pemusatan data.',
- story:'Di Distrik Pusat Data, sebuah kasus misterius muncul: siapa yang “paling mewakili” sekelompok angka? Mean, median, dan modus adalah tiga saksi kuncinya.',
- win:'Tiga saksi telah berbicara dan kasus terpecahkan! Menara Penyebaran menunggumu.',
- pages:[
- {h:'Mean',t:'<b>Mean</b> (rata-rata) adalah jumlah semua data dibagi banyak data.',f:'Mean = jumlah data / banyak data',ex:'2, 3, 3, 4, 8 → 20 ÷ 5 = 4.'},
- {h:'Median',t:'<b>Median</b> adalah nilai tengah setelah data diurutkan. Jika banyak data genap, median adalah rata-rata dua nilai tengah.',ex:'2, 3, 3, 4, 8 → median = 3.'},
- {h:'Modus',t:'<b>Modus</b> adalah nilai yang paling sering muncul. Data bisa memiliki lebih dari satu modus, atau tidak ada sama sekali.',ex:'2, 3, 3, 4, 8 → modus = 3 (muncul 2 kali).'},
- {h:'Coba sendiri!',t:'Ketik datamu sendiri dan lihat langkah perhitungannya.',demo:'central'}],
- qs:[
- {type:'num',t:'Berapa mean dari data 6, 8, 7, 9, 10?',a:8,e:'(6 + 8 + 7 + 9 + 10) ÷ 5 = 40 ÷ 5 = 8.'},
- {type:'num',t:'Berapa median dari data 3, 9, 5, 7, 1, 8?',a:6,e:'Urut: 1, 3, 5, 7, 8, 9. Dua nilai tengah 5 dan 7 → (5 + 7) ÷ 2 = 6.'},
- {type:'mc',t:'Modus dari data 4, 5, 5, 6, 7, 5, 8, 6 adalah …',o:['4','5','6','7'],a:1,e:'Angka 5 muncul 3 kali, paling sering.'}]},
-{id:'s3',world:'stat',emoji:'📏',abbr:'Jangkauan',title:'Jangkauan & Penyebaran Data',short:'Ukur seberapa tersebar suatu data.',
- story:'Di Menara Penyebaran, dua kelompok punya rata-rata yang sama tetapi terlihat sangat berbeda. Rahasianya ada pada <b>seberapa tersebar</b> datanya.',
- win:'Kamu bisa mengukur sebaran data! Tinggal satu misi terakhir di Balai Kota.',
- pages:[
- {h:'Jangkauan',t:'<b>Jangkauan</b> (range) adalah selisih antara nilai terbesar dan nilai terkecil dalam data.',f:'Jangkauan = data maks − data min',ex:'3, 5, 8, 10 → 10 − 3 = 7.'},
- {h:'Mengapa penting?',t:'Dua kelompok bisa punya rata-rata sama namun sebaran berbeda. Jangkauan kecil berarti data lebih seragam; jangkauan besar berarti data lebih tersebar. Namun jangkauan hanya memakai dua nilai ekstrem, sehingga mudah terpengaruh data pencilan.'},
- {h:'Coba sendiri!',t:'Ketik data dan lihat posisi nilai terkecil, terbesar, dan jangkauannya.',demo:'range'}],
- qs:[
- {type:'num',t:'Berapa jangkauan dari data 23, 45, 12, 38, 29?',a:33,e:'45 − 12 = 33.'},
- {type:'num',t:'Nilai tertinggi suatu data adalah 90 dan jangkauannya 35. Berapa nilai terendahnya?',a:55,e:'Min = maks − jangkauan = 90 − 35 = 55.'},
- {type:'mc',t:'Kelas A memiliki jangkauan nilai 10, kelas B jangkauan 30. Kelas mana yang nilainya lebih seragam?',o:['Kelas A','Kelas B','Sama saja','Tidak bisa ditentukan sama sekali'],a:0,e:'Jangkauan lebih kecil → data lebih terkumpul/seragam.'}]},
-{id:'s4',world:'stat',emoji:'🏛️',abbr:'Interpretasi',title:'Diagram & Interpretasi Data',short:'Tarik kesimpulan dari informasi data.',
- story:'Balai Kota akan mengambil keputusan penting, dan semua bergantung pada diagram di dinding. Kamu harus <b>menafsirkan</b> data dengan teliti sebelum rapat dimulai.',
- win:'Keputusan kota diambil berdasarkan analisismu. Kamu resmi menjadi Master MathQuest! 🎓',
- pages:[
- {h:'Langkah membaca diagram',t:'Baca judul dan sumbu, temukan nilai tertinggi dan terendah, bandingkan antar kategori, cari pola atau tren, lalu tarik kesimpulan yang didukung data.',f:'Kesimpulan baik = data + konteks + alasan'},
- {h:'Waspadai jebakan',t:'Perhatikan skala sumbu (apakah dimulai dari 0?), satuan, dan periode data. Jangan menyimpulkan lebih dari yang ditunjukkan oleh data.'},
- {h:'Coba sendiri!',t:'Nilai pernyataan berikut berdasarkan diagram.',demo:'interp'}],
- qs:[
- {type:'mc',t:'Pada diagram, kenaikan penjualan dari bulan sebelumnya paling besar terjadi pada bulan …',chart:{type:'line',title:'Penjualan (unit)',labels:['Jan','Feb','Mar','Apr'],data:[20,35,30,50]},o:['Januari','Februari','Maret','April'],a:3,e:'Kenaikan: Feb +15, Mar −5, Apr +20. Terbesar pada April.'},
- {type:'num',t:'Lima siswa mendapat nilai 70, 75, 80, 85, dan 90. Berapa siswa yang nilainya di atas rata-rata?',a:2,e:'Mean = 400 ÷ 5 = 80. Di atas 80: 85 dan 90 → 2 siswa.'},
- {type:'num',t:'Berapa total pengunjung toko buku dari Senin sampai Kamis?',chart:{type:'bar',title:'Pengunjung toko buku',labels:['Senin','Selasa','Rabu','Kamis'],data:[12,18,15,25]},a:70,e:'12 + 18 + 15 + 25 = 70.'}]}
-];
-const MI=Object.fromEntries(MISSIONS.map(m=>[m.id,m]));
-const EXTRA=[
-{w:'prob',type:'mc',t:'Sebuah dadu dilempar sekali. Peluang muncul angka lebih dari 4 adalah …',o:['1/6','1/3','1/2','2/3'],a:1,e:'Angka 5 dan 6 → 2/6 = 1/3.'},
-{w:'prob',type:'mc',t:'Peluang kejadian yang pasti terjadi adalah …',o:['0','0,5','1','100'],a:2,e:'Kejadian pasti memiliki peluang 1.'},
-{w:'prob',type:'mc',t:'Dari satu set kartu bridge (52 kartu) diambil satu kartu. Peluang terambil As adalah …',o:['1/52','1/13','1/4','4/13'],a:1,e:'Ada 4 As → 4/52 = 1/13.'},
-{w:'prob',type:'num',t:'Jika peluang hujan besok 0,35, berapa peluang tidak hujan?',a:0.65,e:'1 − 0,35 = 0,65.'},
-{w:'prob',type:'num',t:'Peluang suatu kejadian 1/4. Dalam 200 percobaan, berapa frekuensi harapannya?',a:50,e:'1/4 × 200 = 50.'},
-{w:'prob',type:'num',t:'Dua dadu dilempar bersamaan. Berapa banyak titik sampelnya?',a:36,e:'6 × 6 = 36.'},
-{w:'prob',type:'mc',t:'Pada pelemparan dua koin, peluang keduanya muncul gambar adalah …',o:['1/4','1/3','1/2','3/4'],a:0,e:'Hanya GG dari 4 hasil → 1/4.'},
-{w:'stat',type:'num',t:'Rata-rata lima bilangan adalah 12. Berapa jumlah kelima bilangan itu?',a:60,e:'Jumlah = mean × banyak data = 12 × 5 = 60.'},
-{w:'stat',type:'num',t:'Berapa median dari data 3, 5, 7, 9?',a:6,e:'(5 + 7) ÷ 2 = 6.'},
-{w:'stat',type:'mc',t:'Modus dari data 2, 2, 3, 4, 4, 4, 5 adalah …',o:['2','3','4','5'],a:2,e:'Angka 4 muncul 3 kali.'},
-{w:'stat',type:'num',t:'Berapa jangkauan dari data 8, 14, 3, 20?',a:17,e:'20 − 3 = 17.'},
-{w:'stat',type:'mc',t:'Jumlah seluruh persentase pada diagram lingkaran adalah …',o:['50%','90%','100%','360%'],a:2,e:'Seluruh lingkaran mewakili 100%.'},
-{w:'stat',type:'num',t:'Berapa mean dari data 6, 8, 10, 12?',a:9,e:'36 ÷ 4 = 9.'},
-{w:'stat',type:'mc',t:'Ukuran pemusatan data yang nilainya paling sering muncul adalah …',o:['Mean','Median','Modus','Jangkauan'],a:2,e:'Itulah definisi modus.'}
-];
-const QBANK=MISSIONS.flatMap(m=>m.qs.map(q=>Object.assign({w:m.world},q))).concat(EXTRA);
+    <!-- Jubah Petualang Belakang -->
+    <path d="M74 162 Q55 215 62 246 L198 246 Q205 215 186 162 Z" fill="url(#capeGrad)" stroke="#2b575b" stroke-width="3.5" stroke-linejoin="round"/>
 
-/* ============ PROGRESS HELPERS ============ */
-const stars=id=>(S.prog[id]&&S.prog[id].stars)||0;
-const isDone=id=>stars(id)>=2;
-const idxOf=id=>MISSIONS.findIndex(m=>m.id===id);
-const isUnlocked=id=>{const i=idxOf(id);return S.teacher||i===0||isDone(MISSIONS[i-1].id)};
-const nextMission=()=>MISSIONS.find(m=>!isDone(m.id)&&isUnlocked(m.id))||null;
-const totalStars=()=>sum(MISSIONS.map(m=>stars(m.id)));
-const best=k=>(S.games[k]&&S.games[k].best)||0;
-const worldDone=w=>MISSIONS.filter(m=>m.world===w&&isDone(m.id)).length;
-const ACH=[
-{id:'first',i:'🚀',n:'Langkah Pertama',d:'Selesaikan misi pertamamu',t:()=>MISSIONS.some(m=>isDone(m.id)),r:10},
-{id:'prob',i:'🎲',n:'Penguasa Peluang',d:'Selesaikan semua misi Probability Land',t:()=>worldDone('prob')===4,r:40},
-{id:'stat',i:'📊',n:'Raja Statistika',d:'Selesaikan semua misi Statistics City',t:()=>worldDone('stat')===4,r:40},
-{id:'star3',i:'🌟',n:'Sempurna!',d:'Raih 3 bintang di satu misi',t:()=>MISSIONS.some(m=>stars(m.id)===3),r:15},
-{id:'stars15',i:'✨',n:'Kolektor Bintang',d:'Kumpulkan 15 bintang',t:()=>totalStars()>=15,r:30},
-{id:'dice',i:'🎰',n:'Ilmuwan Dadu',d:'Lempar dadu 100 kali di Dice Lab',t:()=>S.stats.rolls>=100,r:15},
-{id:'spin',i:'🎡',n:'Pemutar Keberuntungan',d:'Skor 80+ di Lucky Spinner',t:()=>best('spinner')>=80,r:20},
-{id:'det',i:'🕵️',n:'Detektif Handal',d:'Skor 80+ di Data Detective',t:()=>best('detective')>=80,r:20},
-{id:'chart',i:'📈',n:'Chart Master',d:'Skor 80+ di Chart Master',t:()=>best('chart')>=80,r:20},
-{id:'allg',i:'🎮',n:'Gamer Matematika',d:'Mainkan keempat mini game',t:()=>['dice','spinner','detective','chart'].every(k=>S.played[k]),r:20},
-{id:'win',i:'⚔️',n:'Pemburu Monster',d:'Kalahkan monster di Quiz Battle',t:()=>S.battle.wins>=1,r:25},
-{id:'combo',i:'🔥',n:'Combo 5!',d:'Raih combo 5 di Quiz Battle',t:()=>S.battle.combo>=5,r:20},
-{id:'lv5',i:'🏅',n:'Petualang Senior',d:'Capai Level 5',t:()=>level()>=5,r:30},
-{id:'rich',i:'💰',n:'Juragan Koin',d:'Kumpulkan total 200 koin',t:()=>S.earned>=200,r:0}
-];
-function checkAch(){let ch;do{ch=false;ACH.forEach(a=>{if(!S.ach.includes(a.id)&&a.t()){S.ach.push(a.id);S.coins+=a.r;S.earned+=a.r;ch=true;sfx('win');toast('<b>'+a.i+' Achievement!</b> '+a.n+(a.r?' · +'+a.r+' 🪙':''),'ach')}})}while(ch);persist()}
+    <!-- Rambut Belakang -->
+    <circle cx="84" cy="115" r="24" fill="#6b4832"/>
+    <circle cx="176" cy="115" r="24" fill="#6b4832"/>
 
-/* ============ ROUTER ============ */
-const V=$('#view');
-function render(h){V.innerHTML='<div class="page">'+h+'</div>'}
-function cleanup(){TIMERS.forEach(id=>{clearTimeout(id);clearInterval(id)});TIMERS.clear();killCharts()}
-function go(p){if(location.hash==='#/'+p)route();else location.hash='#/'+p}
-function setNav(v){const m={home:'home',map:'map',world:'map',lesson:'map',challenge:'map',games:'games',game:'games',battle:'battle',ach:'ach',board:'board',progress:'progress',report:'progress'}[v]||'home';$$('.nv').forEach(a=>a.classList.toggle('on',a.dataset.v===m))}
-function route(){
- cleanup();
- const [v,a]=(location.hash||'#/home').slice(2).split('/');
- const R={home:homeView,map:mapView,world:worldView,lesson:lessonView,challenge:challengeView,games:gamesView,game:gameIntro,battle:battleLobby,ach:achView,board:boardView,progress:progressView,report:reportView};
- setNav(v);window.scrollTo(0,0);updateTop();
- (R[v]||homeView)(a);
-}
-window.addEventListener('hashchange',route);
-const owl=t=>'<div class="owl"><div class="owl-av bob">🦉</div><div class="bubble">'+t+'</div></div>';
-const starStr=n=>'⭐'.repeat(n)+'☆'.repeat(3-n);
+    <!-- Telinga -->
+    <circle cx="76" cy="122" r="10" fill="#ffd7ba" stroke="#d89e7c" stroke-width="2.5"/>
+    <circle cx="184" cy="122" r="10" fill="#ffd7ba" stroke="#d89e7c" stroke-width="2.5"/>
 
-/* ============ HOME ============ */
-function homeView(){
- const nx=nextMission(),started=MISSIONS.some(m=>S.prog[m.id]);
- const feats=[['🗺️','Story Mode','Petualangan berbasis cerita',"go('map')"],['📚','Learning Zone','Belajar materi interaktif',"go('"+(nx?'lesson/'+nx.id:'world/prob')+"')"],['🎮','Mini Games','Permainan matematika',"go('games')"],['⚡','Challenge','Tantangan setiap level',"go('"+(nx?'challenge/'+nx.id:'map')+"')"],['⚔️','Quiz Battle','Kuis dengan batas waktu',"go('battle')"],['🏅','Achievement','Penghargaan pemain',"go('ach')"],['🏆','Leaderboard','Papan peringkat',"go('board')"],['📈','Progress','Perkembangan belajar',"go('progress')"]];
- const wc=(w,e,t,d,btn)=>{const n=worldDone(w);return '<article class="world '+w+'"><div class="we bob">'+e+'</div><div class="eyebrow">'+(w==='prob'?'WORLD 01':'WORLD 02')+'</div><h3>'+t+'</h3><p>'+d+'</p><div class="progress"><span style="width:'+n/4*100+'%"></span></div><small>'+n+' dari 4 misi selesai</small><br><button class="btn" onclick="go(\'world/'+w+'\')">'+btn+' ➜</button></article>'};
- render('<div class="hero"><div><div class="eyebrow">THE ADVENTURE OF NUMBERS</div><h1>'+(S.name?'Halo, '+esc(S.name)+'!':'Petualangan matematika dimulai!')+'</h1><p>Jelajahi dunia peluang dan statistika, pecahkan teka-teki, kumpulkan XP dan koin, lalu jadilah penjelajah matematika hebat.</p><div class="row">'+(nx?'<button class="btn primary" onclick="go(\'lesson/'+nx.id+'\')">'+(started?'Lanjutkan':'Mulai')+' petualangan ➜</button>':'<button class="btn primary" onclick="go(\'battle\')">⚔️ Main Quiz Battle</button>')+'<button class="btn ghost" onclick="go(\'map\')">🗺️ Buka peta</button></div></div><div class="hero-art"><div class="bob">'+S.avatar+'</div></div></div>'
- +'<div class="stats"><div class="stat"><div class="stat-icon" style="background:#fff1ce">⭐</div><div><strong>'+S.xp+' XP</strong><small>Level '+level()+'</small><div class="xpbar"><i style="width:'+S.xp%100+'%"></i></div></div></div><div class="stat"><div class="stat-icon" style="background:#fff1ce">🪙</div><div><strong>'+S.coins+'</strong><small>Koin</small></div></div><div class="stat"><div class="stat-icon" style="background:#e5f5ed">🏆</div><div><strong>'+MISSIONS.filter(m=>isDone(m.id)).length+' / 8</strong><small>Misi selesai</small></div></div><div class="stat"><div class="stat-icon" style="background:#eeeaff">🧭</div><div><strong>'+rank()+'</strong><small>Peringkat petualang</small></div></div></div>'
- +'<div class="section-head"><h2>Pilih duniamu</h2><p>Dua wilayah, delapan misi seru menanti!</p></div><div class="worlds">'+wc('prob','🎲','Probability Land','Temukan rahasia kemungkinan lewat dadu, koin, roda keberuntungan, dan eksperimen acak.','Jelajahi pulau')+wc('stat','📊','Statistics City','Jadilah detektif data! Kumpulkan, sajikan, dan temukan cerita di balik angka.','Jelajahi kota')+'</div>'
- +'<div class="section-head"><h2>Perlengkapan petualang</h2><p>Semua fitur belajarmu di satu tempat.</p></div><div class="feature-grid">'+feats.map(f=>'<button class="feature" onclick="'+f[3]+'"><span>'+f[0]+'</span><b>'+f[1]+'</b><small>'+f[2]+'</small></button>').join('')+'</div>');
+    <!-- Kepala / Wajah -->
+    <rect x="78" y="68" width="104" height="94" rx="46" fill="#ffe1ca" stroke="#d89e7c" stroke-width="3"/>
+
+    <!-- Rona Pipi -->
+    <ellipse cx="97" cy="130" rx="9" ry="5.5" fill="#f4978e" opacity="0.55"/>
+    <ellipse cx="163" cy="130" rx="9" ry="5.5" fill="#f4978e" opacity="0.55"/>
+
+    <!-- Ekspresi Mata, Alis, Mulut -->
+    ${exp.brows}
+    ${exp.eyes}
+    ${exp.mouth}
+
+    <!-- Poni Rambut Depan -->
+    <path d="M78 104 C82 70, 178 70, 182 104 C168 88, 150 96, 136 86 C122 98, 102 88, 78 104 Z" fill="#6b4832" stroke="#4d3221" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Topi Petualang + Lencana Kompas -->
+    <ellipse cx="130" cy="76" rx="68" ry="15" fill="#d68c32" stroke="#7c4d18" stroke-width="3"/>
+    <path d="M84 75 C84 36, 176 36, 176 75 Z" fill="url(#hatGrad)" stroke="#7c4d18" stroke-width="3"/>
+    <path d="M85 68 Q130 77 175 68" stroke="#f18d79" stroke-width="8" fill="none"/>
+    <!-- Emblem Kompas Emas di Topi -->
+    <circle cx="130" cy="54" r="13" fill="#fff8e6" stroke="#7c4d18" stroke-width="2.5"/>
+    <polygon points="130,44 133,54 130,64 127,54" fill="#f18d79"/>
+    <polygon points="120,54 130,51 140,54 130,57" fill="#4e9a9e"/>
+
+    <!-- Badan / Tunik Petualang -->
+    <path d="M90 162 L170 162 L180 238 L80 238 Z" fill="url(#tunicGrad)" stroke="#7c6855" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Syal / Kerah Jubah -->
+    <path d="M86 158 Q130 182 174 158 L182 175 Q130 198 78 175 Z" fill="#f18d79" stroke="#9e4d3f" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="130" cy="176" r="8" fill="#f5c15e" stroke="#9e6d1f" stroke-width="2.5"/>
+
+    <!-- Sabuk & Gesper -->
+    <rect x="83" y="206" width="94" height="12" rx="4" fill="#7c4d18"/>
+    <rect x="121" y="203" width="18" height="18" rx="4" fill="#f5c15e" stroke="#5a3810" stroke-width="2.5"/>
+
+    <!-- Tangan Kiri Memegang Buku Mantra Angka -->
+    <g transform="translate(56, 178) rotate(-10)">
+      <rect x="0" y="0" width="38" height="46" rx="6" fill="#8ec5df" stroke="#3c6e85" stroke-width="3"/>
+      <rect x="6" y="4" width="28" height="38" rx="3" fill="#fffaf0"/>
+      <text x="13" y="28" font-family="Baloo 2" font-weight="800" font-size="18" fill="#4b5470">π</text>
+    </g>
+    <circle cx="82" cy="202" r="11" fill="#ffe1ca" stroke="#d89e7c" stroke-width="2.5"/>
+
+    <!-- Tangan Kanan Melambai / Memberi Semangat -->
+    <g class="algeo-arm-r">
+      <path d="M174 168 Q204 152 212 132" stroke="#f3e7d3" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <path d="M174 168 Q204 152 212 132" stroke="#7c6855" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="214" cy="128" r="11" fill="#ffe1ca" stroke="#d89e7c" stroke-width="2.5"/>
+    </g>
+
+    <!-- Efek Tambahan Sesuai Mood -->
+    ${exp.extra}
+  </svg>`;
 }
 
-/* ============ MAP / WORLD ============ */
-const POS={p1:[10,76],p2:[25,54],p3:[11,33],p4:[31,16],s1:[56,78],s2:[71,56],s3:[58,34],s4:[84,20]};
-let lastTok=null;
-function mapView(){
- const nx=nextMission(),cur=nx||MISSIONS[7];
- const ci=idxOf(cur.id);
- const pth=ids=>ids.map((id,i)=>(i?'L':'M')+POS[id][0]+' '+POS[id][1]).join(' ');
- const all=MISSIONS.map(m=>m.id),donePart=all.slice(0,ci+1);
- const nodes=MISSIONS.map(m=>{const lock=!isUnlocked(m.id),d=isDone(m.id),c=nx&&nx.id===m.id;const p=POS[m.id];
-  return '<button class="node '+(lock?'lock':d?'done':c?'cur':'')+'" style="left:'+p[0]+'%;top:'+p[1]+'%" onclick="go(\'lesson/'+m.id+'\')" aria-label="'+m.title+'">'+(lock?'🔒':m.emoji)+(d?'<span class="ns">'+'⭐'.repeat(stars(m.id))+'</span>':'')+'<span class="nl">'+m.abbr+'</span></button>'}).join('');
- const st=lastTok||POS[cur.id],tp=POS[cur.id];
- render('<div class="section-head" style="margin-top:0"><h2>🗺️ Story Mode</h2><p>Ketuk lokasi untuk memulai misi. Selesaikan misi (minimal 2 bintang) untuk membuka lokasi berikutnya.</p></div>'
- +'<div class="map"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="'+pth(all)+'" fill="none" stroke="#ffffffaa" stroke-width="3" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/><path d="'+pth(donePart)+'" fill="none" stroke="#f4bd55" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>'
- +'<div class="isl a"></div><div class="isl b"></div><div class="deco" style="left:4%;top:8%">🌴</div><div class="deco" style="left:36%;top:44%">🌊</div><div class="deco" style="left:42%;top:10%">⛵</div><div class="deco" style="left:80%;top:70%">🏙️</div><div class="deco" style="left:90%;top:50%">🌳</div><div class="deco" style="left:3%;top:84%">🎲</div><div class="deco" style="left:44%;top:84%">🐚</div>'
- +'<div class="eyebrow" style="position:absolute;left:3%;top:2%;color:#1f5a3a">PROBABILITY LAND</div><div class="eyebrow" style="position:absolute;right:3%;top:2%;color:#4a3a8a">STATISTICS CITY</div>'
- +nodes+'<div class="token" id="tok" style="left:'+st[0]+'%;top:'+st[1]+'%">'+S.avatar+'</div></div>'
- +'<div class="panel wide">'+owl((nx?'<b>Bab '+(ci+1)+' — '+cur.title+'</b><br>'+cur.story:'🎓 Kamu telah menamatkan seluruh petualangan! Ulangi misi untuk meraih 3 bintang atau tantang monster di Quiz Battle.'))+'<div class="row"><button class="btn primary" onclick="go(\''+(nx?'lesson/'+cur.id:'battle')+'\')">'+(nx?'Mulai misi ➜':'⚔️ Quiz Battle')+'</button></div></div>');
- later(()=>{const t=$('#tok');if(t){t.style.left=tp[0]+'%';t.style.top=tp[1]+'%'}lastTok=tp},60);
-}
-function worldView(w){
- w=w==='stat'?'stat':'prob';const isP=w==='prob';
- render('<div class="panel"><button class="back" onclick="go(\'home\')">← Beranda</button><div class="eyebrow">'+(isP?'WORLD 01 · PROBABILITY':'WORLD 02 · STATISTICS')+'</div><h2>'+WN[w]+' '+(isP?'🎲':'📊')+'</h2><p>'+(isP?'Jelajahi konsep peluang lewat eksperimen dan tantangan.':'Jadilah detektif data dan pecahkan misteri angka.')+'</p><div class="level-list">'
- +MISSIONS.filter(m=>m.world===w).map((m,i)=>{const lock=!isUnlocked(m.id),d=isDone(m.id);return '<article class="level '+(lock?'lock':'')+'"><h4>'+(lock?'🔒':d?'✅':m.emoji)+' Level '+(i+1)+': '+m.title+'</h4><p>'+m.short+'</p><div class="stars" style="font-size:20px;margin-bottom:8px">'+starStr(stars(m.id))+'</div><button class="btn '+(d?'secondary':'primary')+'" '+(lock?'disabled':'')+' onclick="go(\'lesson/'+m.id+'\')">'+(lock?'Terkunci':d?'Mainkan lagi':'Buka misi')+' →</button></article>'}).join('')+'</div></div>');
-}
-
-/* ============ LESSON ============ */
-let L=null;
-function lessonView(id){const m=MI[id];if(!m)return go('map');if(!isUnlocked(id)){toast('🔒 Selesaikan misi sebelumnya dulu ya');return go('map')}L={m,p:0};lessonRender()}
-function lessonRender(){
- const {m,p}=L,total=m.pages.length+1,last=p===total-1;let body;
- if(p===0)body='<div class="lesson-box story">'+owl(m.story)+'</div>';
- else{const pg=m.pages[p-1];body='<h3>'+pg.h+'</h3><div class="lesson-box"><p>'+pg.t+'</p>'+(pg.f?'<div class="formula">'+pg.f+'</div>':'')+(pg.ex?'<p class="ex">💡 '+pg.ex+'</p>':'')+'</div>'+(pg.demo?'<div class="demo" id="demo"></div>':'')}
- render('<div class="panel"><button class="back" onclick="go(\'map\')">← Kembali ke peta</button><div class="eyebrow">'+WN[m.world].toUpperCase()+' · LEARNING ZONE</div><h2>'+m.emoji+' '+m.title+'</h2><div class="dots">'+Array.from({length:total},(_,i)=>'<i class="'+(i<=p?'on':'')+'"></i>').join('')+'</div>'+body+'<div class="row between"><button class="btn secondary" '+(p===0?'disabled':'')+' onclick="lessonGo(-1)">← Sebelumnya</button>'+(last?'<button class="btn primary" onclick="go(\'challenge/'+m.id+'\')">Mulai tantangan ⚔️</button>':'<button class="btn primary" onclick="lessonGo(1)">Lanjut ➜</button>')+'</div></div>');
- if(p>0&&m.pages[p-1].demo)DEMO[m.pages[p-1].demo]($('#demo'));
-}
-function lessonGo(d){cleanup();L.p+=d;lessonRender();window.scrollTo(0,0)}
-
-/* ============ DEMOS ============ */
-const DEMO={};
-DEMO.space=el=>{
- const D6=[1,2,3,4,5,6];
- const sets={'🪙 1 koin':['A','G'],'🪙🪙 2 koin':['AA','AG','GA','GG'],'🎲 1 dadu':D6.map(String),'🎲🪙 Dadu + koin':D6.flatMap(d=>['A','G'].map(c=>d+c)),'🎲🎲 2 dadu':D6.flatMap(a=>D6.map(b=>a+','+b))};
- const keys=Object.keys(sets);
- el.innerHTML='<b>🔬 Coba sendiri</b><div class="chips" id="dk">'+keys.map((k,i)=>'<button class="chip '+(i?'':'on')+'" data-k="'+k+'">'+k+'</button>').join('')+'</div><div id="dout"></div>';
- const show=k=>{const s=sets[k];$('#dout',el).innerHTML='<div class="formula">n(S) = '+s.length+'</div><div class="tiles-sm">'+s.map(x=>'<span>'+x+'</span>').join('')+'</div><p class="muted">A = angka, G = gambar</p>'};
- $$('#dk .chip',el).forEach(b=>b.onclick=()=>{$$('#dk .chip',el).forEach(x=>x.classList.remove('on'));b.classList.add('on');show(b.dataset.k);sfx('tap')});
- show(keys[0]);
-};
-DEMO.prob=el=>{
- const cols=[['Merah','🔴','#f27b68',4],['Biru','🔵','#75b8e8',3],['Hijau','🟢','#70c7a6',3]];const v=cols.map(c=>c[3]);
- el.innerHTML='<b>🔬 Kantong kelereng</b><p class="muted">Geser untuk mengubah isi kantong.</p>'+cols.map((c,i)=>'<label class="sl"><span>'+c[1]+' '+c[0]+'</span><input type="range" min="0" max="10" value="'+c[3]+'" data-i="'+i+'"><b id="sv'+i+'">'+c[3]+'</b></label>').join('')+'<div id="pout"></div><button class="btn secondary" id="pk">🤚 Ambil 1 kelereng</button> <span id="pkd" style="font-size:32px"></span>';
- const calc=()=>{const t=sum(v);$('#pout',el).innerHTML=t===0?'<p class="muted">Kantong kosong.</p>':'<div class="formula">n(S) = '+t+'</div><div class="pbars">'+cols.map((c,i)=>'<div class="pb"><span>'+c[1]+' P('+c[0]+') = '+frac(v[i],t)+'</span><div class="pbt"><i style="width:'+v[i]/t*100+'%;background:'+c[2]+'"></i></div><em>'+fmt(v[i]/t*100)+'%</em></div>').join('')+'</div>'};
- $$('input',el).forEach(inp=>inp.oninput=()=>{v[+inp.dataset.i]=+inp.value;$('#sv'+inp.dataset.i,el).textContent=inp.value;calc()});
- $('#pk',el).onclick=()=>{const t=sum(v);if(!t)return;let r=rnd(1,t),k=0;while(r>v[k]){r-=v[k];k++}$('#pkd',el).textContent=cols[k][1];sfx('tap')};
- calc();
-};
-DEMO.coin=el=>{
- let n=0,a=0;const pts=[];
- el.innerHTML='<b>🔬 Laboratorium koin</b><div class="row wrap"><button class="btn secondary" data-n="1">×1</button><button class="btn secondary" data-n="10">×10</button><button class="btn secondary" data-n="100">×100</button><button class="btn secondary" data-n="1000">×1000</button><button class="btn ghost" style="background:#e9edf3;color:#555" id="cr">Reset</button></div><div class="statline"><span>Lemparan: <b id="cn">0</b></span><span>Angka: <b id="ca">0</b></span><span>Frek. relatif: <b id="cf">–</b></span></div>'+chartBox('cc','');
- const draw=()=>{$('#cn',el).textContent=n;$('#ca',el).textContent=a;$('#cf',el).textContent=n?fmt(a/n):'–';if(!window.Chart||!pts.length)return;const step=Math.max(1,Math.ceil(pts.length/120));const idx=pts.map((_,i)=>i).filter(i=>i%step===0||i===pts.length-1);
-  killChart('cc');charts.cc=new Chart($('#cc',el),{type:'line',data:{labels:idx.map(i=>i+1),datasets:[{label:'Frekuensi relatif angka',data:idx.map(i=>pts[i]),borderColor:'#75b8e8',pointRadius:0,tension:.2},{label:'Peluang teoretik 0,5',data:idx.map(()=>.5),borderColor:'#f27b68',borderDash:[6,6],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,animation:false,scales:{y:{min:0,max:1}},plugins:{legend:{position:'bottom'}}}})};
- $$('button[data-n]',el).forEach(b=>b.onclick=()=>{const k=+b.dataset.n;for(let i=0;i<k&&n<5000;i++){n++;if(Math.random()<.5)a++;pts.push(a/n)}if(n>=5000)toast('Batas 5000 lemparan tercapai — tekan Reset');sfx('tap');draw()});
- $('#cr',el).onclick=()=>{n=0;a=0;pts.length=0;killChart('cc');draw();if(window.Chart){charts.cc=null;delete charts.cc}};
- draw();
-};
-DEMO.harapan=el=>{
- const ev=[['muncul angka 6 pada dadu',1/6,'1/6'],['muncul sisi angka pada koin',1/2,'1/2'],['muncul bilangan prima pada dadu',1/2,'1/2'],['terambil kelereng merah (3 dari 12)',1/4,'1/4']];
- el.innerHTML='<b>🔬 Prediksi vs kenyataan</b><select id="he" class="input">'+ev.map((e,i)=>'<option value="'+i+'">'+e[0]+' · P = '+e[2]+'</option>').join('')+'</select><label class="sl"><span>Percobaan</span><input type="range" id="hn" min="12" max="600" step="12" value="60"><b id="hnv" style="width:44px">60</b></label><div id="hout"></div><button class="btn secondary" id="hs">🎲 Simulasikan</button><div id="hres"></div>';
- const calc=()=>{const e=ev[+$('#he',el).value],n=+$('#hn',el).value;$('#hnv',el).textContent=n;$('#hout',el).innerHTML='<div class="formula">F = '+e[2]+' × '+n+' = '+fmt(e[1]*n)+' kali</div>';$('#hres',el).innerHTML=''};
- $('#he',el).onchange=calc;$('#hn',el).oninput=calc;
- $('#hs',el).onclick=()=>{const e=ev[+$('#he',el).value],n=+$('#hn',el).value;let c=0;for(let i=0;i<n;i++)if(Math.random()<e[1])c++;const ex=e[1]*n;$('#hres',el).innerHTML='<div class="feedback good">Hasil simulasi: <b>'+c+'</b> kali · Harapan: <b>'+fmt(ex)+'</b> · Selisih: '+fmt(Math.abs(c-ex))+'</div>';sfx('tap')};
- calc();
-};
-DEMO.survey=el=>{
- const labels=['Basket','Voli','Futsal','Renang'],v=[10,15,20,5];let type='bar';
- el.innerHTML='<b>🔬 Survei ekstrakurikuler</b><div class="row wrap" id="sv">'+labels.map((l,i)=>'<span class="chip" style="display:inline-flex;gap:8px;align-items:center">'+l+' <button class="chip on" data-i="'+i+'" data-d="-1">−</button><b id="c'+i+'">'+v[i]+'</b><button class="chip on" data-i="'+i+'" data-d="1">+</button></span>').join('')+'</div><div class="chips" id="st"><button class="chip on" data-t="bar">📊 Batang</button><button class="chip" data-t="pie">🥧 Lingkaran</button><button class="chip" data-t="line">📈 Garis</button></div>'+chartBox('sc','')+'<div id="stb"></div>';
- const draw=()=>{const T=sum(v);mountChart('sc',{type,title:'Pilihan ekstrakurikuler',labels,data:v});$('#stb',el).innerHTML='<table class="tbl"><tr><th>Ekskul</th><th>Frekuensi</th><th>Persentase</th></tr>'+labels.map((l,i)=>'<tr><td>'+l+'</td><td>'+v[i]+'</td><td>'+(T?fmt(v[i]/T*100):0)+'%</td></tr>').join('')+'<tr><th>Total</th><th>'+T+'</th><th>100%</th></tr></table>'};
- $$('#sv button',el).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;v[i]=Math.max(0,Math.min(40,v[i]+ +b.dataset.d));$('#c'+i,el).textContent=v[i];draw()});
- $$('#st button',el).forEach(b=>b.onclick=()=>{type=b.dataset.t;$$('#st button',el).forEach(x=>x.classList.toggle('on',x===b));draw();sfx('tap')});
- draw();
-};
-DEMO.central=el=>{
- el.innerHTML='<b>🔬 Kalkulator pemusatan data</b><p class="muted">Ketik data (pisahkan dengan koma atau spasi).</p><input class="input" id="cin" value="2, 3, 3, 4, 8"><div id="cout"></div>';
- const calc=()=>{const d=parseList($('#cin',el).value);if(!d.length){$('#cout',el).innerHTML='<p class="muted">Masukkan minimal satu angka.</p>';return}
-  const s=[...d].sort((x,y)=>x-y),mean=sum(d)/d.length,md=modes(d);
-  $('#cout',el).innerHTML='<p>Data terurut: <b>'+s.join(', ')+'</b> (n = '+d.length+')</p><div class="pbars"><div class="feedback good">Mean = '+sum(d)+' ÷ '+d.length+' = <b>'+fmt(mean)+'</b></div><div class="feedback good">Median = <b>'+fmt(median(d))+'</b></div><div class="feedback good">Modus = <b>'+(md.length?md.join(', '):'tidak ada')+'</b></div></div>'};
- $('#cin',el).oninput=calc;calc();
-};
-DEMO.range=el=>{
- el.innerHTML='<b>🔬 Jangkauan data</b><p class="muted">Ketik data lalu lihat sebarannya.</p><input class="input" id="rin" value="3, 5, 8, 10, 14"><div id="rout"></div>';
- const calc=()=>{const d=parseList($('#rin',el).value);if(!d.length){$('#rout',el).innerHTML='';return}const mn=Math.min(...d),mx=Math.max(...d),pos=v=>mx===mn?50:(v-mn)/(mx-mn)*100;
-  $('#rout',el).innerHTML='<div class="numline">'+d.map(v=>'<span class="nd '+(v===mn?'mn':v===mx?'mx':'')+'" style="left:'+pos(v)+'%" title="'+v+'"></span>').join('')+'</div><p style="text-align:center">🟢 Min = <b>'+mn+'</b> &nbsp; 🔴 Maks = <b>'+mx+'</b></p><div class="formula">Jangkauan = '+mx+' − '+mn+' = '+(mx-mn)+'</div>'};
- $('#rin',el).oninput=calc;calc();
-};
-DEMO.interp=el=>{
- const lab=['Sen','Sel','Rab','Kam','Jum'],dat=[40,55,50,70,65];
- const st=[['Pengunjung terbanyak terjadi pada hari Kamis.',true,'Benar: nilai tertinggi 70 pada hari Kamis.'],['Jumlah pengunjung selalu naik setiap hari.',false,'Salah: dari Selasa ke Rabu dan Kamis ke Jumat justru turun.'],['Selisih pengunjung Kamis dan Senin adalah 30 orang.',true,'Benar: 70 − 40 = 30.']];
- el.innerHTML='<b>🔬 Detektif interpretasi</b>'+chartBox('ic','')+st.map((s,i)=>'<div class="stmt"><p>'+s[0]+'</p><div class="row"><button class="btn secondary" data-i="'+i+'" data-v="1">Benar</button><button class="btn secondary" data-i="'+i+'" data-v="0">Salah</button></div><div id="sf'+i+'"></div></div>').join('');
- mountChart('ic',{type:'line',title:'Pengunjung perpustakaan',labels:lab,data:dat});
- $$('button[data-i]',el).forEach(b=>b.onclick=()=>{const i=+b.dataset.i,ok=(b.dataset.v==='1')===st[i][1];$('#sf'+i,el).innerHTML='<div class="feedback '+(ok?'good':'bad')+'">'+(ok?'🎉 ':'🤔 ')+st[i][2]+'</div>';sfx(ok?'ok':'no')});
+const moodLines = {
+  happy: "“Siap menaklukkan misteri Peluang dan Statistika hari ini?”",
+  think: "“Hmm... coba kita perhatikan baik-baik ruang sampelnya dulu!”",
+  eureka: "“Aha! Aku sudah menemukan pola rumus yang tersembunyi!”",
+  cheer: "“Luar biasa! Satu langkah lagi menuju gelar Master MathQuest!”"
 };
 
-/* ============ PERTANYAAN (bersama) ============ */
-function qBody(q,fn,cid){
- cid=cid||'qchart';
- let h='<div class="question">'+q.t+'</div>';
- if(q.chart)h+=chartBox(cid,q.chart);
- if(q.table)h+='<table class="tbl"><tr><th>Kategori</th><th>Frekuensi</th></tr>'+q.table.labels.map((l,i)=>'<tr><td>'+l+'</td><td>'+q.table.data[i]+'</td></tr>').join('')+'<tr><th>Total</th><th>'+q.table.total+'</th></tr></table>';
- if(q.type==='mc')h+='<div class="answers">'+q.o.map((o,i)=>'<button class="answer" data-i="'+i+'" onclick="'+fn+'('+i+')"><b>'+'ABCD'[i]+'.</b> '+o+'</button>').join('')+'</div>';
- else h+='<div class="numrow"><input id="ansIn" class="input" inputmode="decimal" autocomplete="off" placeholder="Ketik jawabanmu…" onkeydown="if(event.key===\'Enter\')'+fn+'(this.value)"><button class="btn primary" id="ansBtn" onclick="'+fn+'(document.getElementById(\'ansIn\').value)">Jawab</button></div>';
- return h;
-}
-const isRight=(q,v)=>q.type==='mc'?v===q.a:(()=>{const n=parseNum(v);return Number.isFinite(n)&&Math.abs(n-q.a)<=(q.tol||0.005)})();
-const ansText=q=>q.type==='mc'?q.o[q.a]:fmt(q.a);
-function lockQ(q,v,right){
- if(q.type==='mc')$$('.answer').forEach(b=>{const i=+b.dataset.i;b.disabled=true;if(i===q.a)b.classList.add('correct');else if(i===v)b.classList.add('wrong')});
- else{const inp=$('#ansIn');if(inp){inp.disabled=true;inp.classList.add(right?'ok':'no')}const bt=$('#ansBtn');if(bt)bt.disabled=true}
-}
-function judge(q,v){
- if(q.type==='num'&&!Number.isFinite(parseNum(v))){toast('Ketik angka dulu ya ✍️');return null}
- const ok=isRight(q,v);lockQ(q,v,ok);S.stats.answered++;if(ok)S.stats.correct++;sfx(ok?'ok':'no');return ok;
-}
-const fbHtml=(q,ok)=>'<div class="feedback '+(ok?'good':'bad')+'">'+(ok?'🎉 Tepat sekali!':'Belum tepat — jawabannya <b>'+ansText(q)+'</b>.')+'<br>'+q.e+'</div>';
-function afterQ(q){if(q.chart)mountChart('qchart',q.chart);const i=$('#ansIn');if(i)i.focus()}
+const moodOrder = ['happy', 'think', 'eureka', 'cheer'];
+let currentMoodIdx = 0;
 
-/* ============ CHALLENGE ============ */
-let C=null;
-function challengeView(id){
- const m=MI[id];if(!m)return go('map');if(!isUnlocked(id)){toast('🔒 Selesaikan misi sebelumnya dulu ya');return go('map')}
- C={m,i:0,ok:0,locked:false};chRender();
-}
-function chRender(){
- const {m,i}=C,q=m.qs[i];C.locked=false;
- render('<div class="panel"><button class="back" onclick="go(\'lesson/'+m.id+'\')">← Materi</button><div class="eyebrow">CHALLENGE · SOAL '+(i+1)+'/'+m.qs.length+'</div><div class="dots">'+m.qs.map((_,k)=>'<i class="'+(k<=i?'on':'')+'"></i>').join('')+'</div><h2>'+m.emoji+' '+m.title+'</h2>'+qBody(q,'chAnswer')+'<div id="fb"></div></div>');
- afterQ(q);
-}
-function chAnswer(v){
- if(C.locked)return;const q=C.m.qs[C.i],ok=judge(q,v);if(ok===null)return;C.locked=true;if(ok)C.ok++;
- $('#fb').innerHTML=fbHtml(q,ok)+'<button class="btn primary" onclick="chNext()">'+(C.i<C.m.qs.length-1?'Soal berikutnya':'Lihat hasil')+' ➜</button>';persist();
-}
-function chNext(){C.i++;if(C.i>=C.m.qs.length)chFinish();else chRender()}
-function chFinish(){
- const m=C.m,s=C.ok,prev=stars(m.id),wasDone=isDone(m.id),passed=s>=2;
- const d=Math.max(0,s-prev);let xp=d*15,coins=d*10;
- if(passed&&!wasDone){xp+=30;coins+=15}
- const pr=S.prog[m.id]||{stars:0,tries:0};pr.stars=Math.max(pr.stars,s);pr.tries++;S.prog[m.id]=pr;
- addReward(xp,coins);save();sfx(passed?'win':'no');
- const i=idxOf(m.id),nxt=MISSIONS[i+1];
- render('<div class="panel center"><div class="big">'+(passed?'🏆':'💪')+'</div><div class="eyebrow">'+(passed?'MISSION COMPLETE':'COBA LAGI')+'</div><h2>'+(passed?'Misi berhasil!':'Hampir berhasil!')+'</h2><div class="stars">'+starStr(s)+'</div><p>Kamu menjawab benar <b>'+s+' dari '+m.qs.length+'</b> soal. '+(passed?'':'Raih minimal 2 bintang untuk membuka misi berikutnya.')+'</p><div class="row center"><span class="pill">⭐ +'+xp+' XP</span><span class="pill">🪙 +'+coins+'</span></div>'+(passed?'<div class="lesson-box story" style="text-align:left">'+owl(m.win)+'</div>':'')
- +'<div class="row center">'+(passed&&nxt?'<button class="btn primary" onclick="go(\'lesson/'+nxt.id+'\')">Misi berikutnya ➜</button>':'')+(passed&&!nxt?'<button class="btn primary" onclick="go(\'report\')">📄 Lihat laporan akhir</button>':'')+'<button class="btn secondary" onclick="go(\'challenge/'+m.id+'\')">🔁 Ulangi</button><button class="btn secondary" onclick="go(\'map\')">🗺️ Peta</button>'+(passed?'':'<button class="btn secondary" onclick="go(\'lesson/'+m.id+'\')">📚 Baca materi</button>')+'</div></div>');
+function updateAlgeoVisuals(mood) {
+  const svg = renderAlgeoSVG(mood);
+  document.getElementById('heroSvgWrap').innerHTML = svg;
+  document.getElementById('portraitSvgWrap').innerHTML = svg;
+  document.getElementById('algeoLine').textContent = moodLines[mood];
 }
 
-/* ============ GAMES HUB ============ */
-const GAMES={
- dice:{n:'Dice Lab',e:'🎲',w:'prob',d:'Prediksi frekuensi harapan lalu lempar dadu virtual. Ada juga lab bebas dengan diagram frekuensi!',start:()=>diceMenu()},
- spinner:{n:'Lucky Spinner',e:'🎡',w:'prob',d:'Hitung peluang tiap warna pada roda, lalu putar dan buktikan prediksimu.',start:()=>spStart()},
- detective:{n:'Data Detective',e:'🕵️',w:'stat',d:'Urutkan angka, lalu temukan mean, median, dan modus untuk memecahkan kasus.',start:()=>ddStart()},
- chart:{n:'Chart Master',e:'📊',w:'stat',d:'Pecahkan teka-teki dari diagram batang, diagram lingkaran, dan tabel data.',start:()=>cmStart()}
-};
-function gamesView(){
- render('<div class="section-head" style="margin-top:0"><h2>🎮 Mini Games</h2><p>Belajar sambil bermain. Skor tertinggi memberi XP dan koin!</p></div><div class="grid2">'+Object.keys(GAMES).map(k=>{const g=GAMES[k];return '<div class="gcard"><span class="tag '+g.w+'">'+(g.w==='prob'?'Peluang':'Statistika')+'</span><div class="ge bob">'+g.e+'</div><h3>'+g.n+'</h3><p>'+g.d+'</p><div class="muted">🏅 Skor terbaik: <b>'+best(k)+'</b> · Dimainkan: '+((S.games[k]&&S.games[k].plays)||0)+'×</div><button class="btn primary" onclick="go(\'game/'+k+'\')">Main ➜</button></div>'}).join('')+'</div>');
-}
-function gameIntro(k){
- const g=GAMES[k];if(!g)return go('games');
- render('<div class="panel center"><button class="back" onclick="go(\'games\')" style="float:left">← Games</button><div style="clear:both"></div><div class="big bob">'+g.e+'</div><div class="eyebrow">'+(g.w==='prob'?'PROBABILITY LAND':'STATISTICS CITY')+'</div><h2>'+g.n+'</h2><p>'+g.d+'</p><p class="muted">Skor terbaik: <b>'+best(k)+'</b> / 100</p><button class="btn primary" onclick="GAMES[\''+k+'\'].start()">▶ Mulai bermain</button></div>');
-}
-function gameFinish(key,score){
- const g=S.games[key]||{best:0,plays:0},prevBest=g.best;g.best=Math.max(g.best,score);g.plays++;S.games[key]=g;S.played[key]=true;
- const coins=Math.round(score/10),xp=Math.round(score/5);addReward(xp,coins);save();sfx(score>=60?'win':'ok');
- render('<div class="panel center"><div class="big">'+(score>=80?'🏆':score>=50?'🎉':'💪')+'</div><div class="eyebrow">'+GAMES[key].n.toUpperCase()+'</div><h2>Skor: '+score+' / 100</h2><p>'+(score>=80?'Luar biasa! Kamu sangat menguasai materi ini.':score>=50?'Bagus! Sedikit lagi menuju skor sempurna.':'Jangan menyerah — ulangi dan baca materinya lagi!')+'</p>'+(score>prevBest?'<div class="pill">🆕 Rekor baru!</div>':'')+'<div class="row center"><span class="pill">⭐ +'+xp+' XP</span><span class="pill">🪙 +'+coins+'</span></div><div class="row center"><button class="btn primary" onclick="GAMES[\''+key+'\'].start()">🔁 Main lagi</button><button class="btn secondary" onclick="go(\'games\')">Semua game</button></div></div>');
+function setMood(mood, btn) {
+  currentMoodIdx = moodOrder.indexOf(mood);
+  updateAlgeoVisuals(mood);
+  document.querySelectorAll('.algeo-moods button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 }
 
-/* ---- Dice Lab ---- */
-const DEV=[{n:'muncul angka 6',f:x=>x===6,pr:1/6},{n:'muncul bilangan genap',f:x=>x%2===0,pr:1/2},{n:'muncul angka lebih dari 4',f:x=>x>4,pr:1/3},{n:'muncul bilangan prima',f:x=>[2,3,5].includes(x),pr:1/2},{n:'muncul kelipatan 3',f:x=>x%3===0,pr:1/3},{n:'tidak muncul angka 1',f:x=>x!==1,pr:5/6}];
-function diceMenu(){
- render('<div class="panel center"><button class="back" onclick="go(\'game/dice\')" style="float:left">← Kembali</button><div style="clear:both"></div><div class="big">🎲</div><h2>Dice Lab</h2><p>Pilih mode permainan:</p><div class="row center"><button class="btn primary" onclick="diceStart()">🎯 Tantangan Prediksi (5 ronde)</button><button class="btn secondary" onclick="diceFree()">🔬 Lab Bebas</button></div></div>');
-}
-let DP=null;
-function diceStart(){DP={r:0,score:0,evs:shuffle(DEV).slice(0,5)};diceRound()}
-function diceRound(){
- const ev=DP.evs[DP.r],N=pick([30,60,90,120]);DP.ev=ev;DP.N=N;DP.busy=false;
- render('<div class="panel"><button class="back" onclick="go(\'game/dice\')">← Keluar</button><div class="eyebrow">DICE LAB · RONDE '+(DP.r+1)+'/5 · SKOR '+DP.score+'</div><h2>Prediksi frekuensi harapan</h2><div class="game-stage"><div class="die" id="die">🎲</div><p>Dadu akan dilempar <b>'+N+' kali</b>.<br>Berapa kali kira-kira <b>'+ev.n+'</b>?</p><div class="bigval" id="pv">'+Math.round(N/2)+'</div><input type="range" id="ps" min="0" max="'+N+'" value="'+Math.round(N/2)+'" class="wide"><div class="muted" id="prog">Geser untuk memprediksi, lalu lempar!</div><br><button class="btn primary" id="rb" onclick="diceRoll()">🎲 Lempar dadu!</button></div><div id="fb"></div></div>');
- $('#ps').oninput=e=>{$('#pv').textContent=e.target.value};
-}
-function diceRoll(){
- if(DP.busy)return;DP.busy=true;sfx('tap');const pred=+$('#ps').value,N=DP.N,ev=DP.ev;$('#ps').disabled=true;$('#rb').disabled=true;S.stats.rolls+=N;
- const res=Array.from({length:N},()=>rnd(1,6));let idx=0,cnt=0;const step=Math.ceil(N/30);
- const iv=setInterval(()=>{for(let k=0;k<step&&idx<N;k++){if(ev.f(res[idx]))cnt++;idx++}
-  $('#die').textContent=FACE[res[idx-1]-1];$('#prog').innerHTML='Lemparan '+idx+'/'+N+' · terjadi <b>'+cnt+'</b> kali';
-  if(idx>=N){clearInterval(iv);TIMERS.delete(iv);diceDone(pred,cnt)}},70);
- TIMERS.add(iv);
-}
-function diceDone(pred,act){
- const N=DP.N,pts=Math.round(Math.max(0,1-Math.abs(pred-act)/N*5)*20);DP.score+=pts;
- $('#fb').innerHTML='<div class="feedback '+(pts>=14?'good':'bad')+'">Prediksimu: <b>'+pred+'</b> · Hasil sebenarnya: <b>'+act+'</b> · Frekuensi harapan teori: <b>'+fmt(DP.ev.pr*N)+'</b><br>Poin ronde ini: <b>'+pts+'/20</b></div><button class="btn primary" onclick="diceNext()">'+(DP.r<4?'Ronde berikutnya':'Lihat skor')+' ➜</button>';
- sfx(pts>=14?'ok':'no');save();
-}
-function diceNext(){if(DP.r<4){DP.r++;diceRound()}else gameFinish('dice',DP.score)}
-let DF={dice:1,c:{},n:0};
-function diceFree(){DF.c={};DF.n=0;dfRender()}
-function dfRender(){
- render('<div class="panel wide"><button class="back" onclick="diceMenu()">← Mode</button><div class="eyebrow">DICE LAB · LAB BEBAS</div><h2>Eksperimen dadu</h2><div class="chips"><button class="chip '+(DF.dice===1?'on':'')+'" onclick="DF.dice=1;diceFree()">🎲 1 dadu</button><button class="chip '+(DF.dice===2?'on':'')+'" onclick="DF.dice=2;diceFree()">🎲🎲 2 dadu (jumlah mata)</button></div><div class="row"><button class="btn secondary" onclick="dfRoll(1)">×1</button><button class="btn secondary" onclick="dfRoll(10)">×10</button><button class="btn secondary" onclick="dfRoll(100)">×100</button><button class="btn secondary" onclick="dfRoll(1000)">×1000</button><button class="btn danger" onclick="diceFree()">Reset</button></div><div class="statline"><span>Total lemparan: <b id="dfn">0</b></span><span class="muted">Total seluruh sesi: '+S.stats.rolls+'</span></div>'+chartBox('dfc','')+'<div id="dft" style="overflow:auto"></div></div>');
- dfUpdate();
-}
-function dfRoll(t){for(let i=0;i<t;i++){const s=DF.dice===1?rnd(1,6):rnd(1,6)+rnd(1,6);DF.c[s]=(DF.c[s]||0)+1}DF.n+=t;S.stats.rolls+=t;sfx('tap');save();dfUpdate()}
-function dfUpdate(){
- const faces=DF.dice===1?[1,2,3,4,5,6]:[2,3,4,5,6,7,8,9,10,11,12];const th=f=>DF.dice===1?1/6:(6-Math.abs(f-7))/36;
- $('#dfn').textContent=DF.n;
- mountChart('dfc',{type:'bar',title:'Frekuensi tiap hasil',labels:faces.map(String),data:faces.map(f=>DF.c[f]||0)});
- $('#dft').innerHTML='<table class="tbl"><tr><th>Hasil</th><th>Frekuensi</th><th>Frek. relatif (empirik)</th><th>Peluang teoretik</th></tr>'+faces.map(f=>'<tr><td>'+f+'</td><td>'+(DF.c[f]||0)+'</td><td>'+(DF.n?fmt((DF.c[f]||0)/DF.n):'–')+'</td><td>'+fmt(th(f))+'</td></tr>').join('')+'</table>';
+function cycleMood() {
+  currentMoodIdx = (currentMoodIdx + 1) % moodOrder.length;
+  const nextMood = moodOrder[currentMoodIdx];
+  const btns = document.querySelectorAll('.algeo-moods button');
+  setMood(nextMood, btns[currentMoodIdx]);
 }
 
-/* ---- Lucky Spinner ---- */
-const SPC=[{n:'Merah',c:'#f27b68'},{n:'Biru',c:'#75b8e8'},{n:'Hijau',c:'#70c7a6'},{n:'Kuning',c:'#f4bd55'},{n:'Ungu',c:'#9c8be8'}];
-let SP=null;
-function spStart(){SP={r:0,score:0,rot:0};spRound()}
-function drawWheel(cv,slices,cols){
- const ctx=cv.getContext&&cv.getContext('2d');if(!ctx)return;const W=cv.width,R=W/2,a=Math.PI*2/slices.length;ctx.clearRect(0,0,W,W);
- slices.forEach((ci,i)=>{ctx.beginPath();ctx.moveTo(R,R);ctx.arc(R,R,R-4,-Math.PI/2+i*a,-Math.PI/2+(i+1)*a);ctx.closePath();ctx.fillStyle=cols[ci].c;ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.stroke()});
- ctx.beginPath();ctx.arc(R,R,22,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#17233f';ctx.stroke();
-}
-function spRound(){
- const total=pick([6,8,10,12]),nc=pick([3,4]),cols=shuffle(SPC).slice(0,nc),counts=Array(nc).fill(1);
- for(let k=0;k<total-nc;k++)counts[rnd(0,nc-1)]++;
- const slices=shuffle(counts.flatMap((c,i)=>Array(c).fill(i))),ci=rnd(0,nc-1),cnt=counts[ci],cn='<b style="color:'+cols[ci].c+'">'+cols[ci].n+'</b>';let q;
- if(SP.r%2===0){
-  const correct=frac(cnt,total),cand=[frac(cnt,total-cnt),frac(total-cnt,total),frac(1,nc),frac(cnt+1,total),frac(Math.max(1,cnt-1),total)],d=[];
-  cand.forEach(x=>{if(x!==correct&&!d.includes(x)&&d.length<3)d.push(x)});
-  while(d.length<3){const x=frac(rnd(1,total-1),total);if(x!==correct&&!d.includes(x))d.push(x)}
-  const o=shuffle([correct,...d]);
-  q={type:'mc',t:'Roda ini punya '+total+' bagian sama besar. Berapa peluang jarum berhenti di warna '+cn+'?',o,a:o.indexOf(correct),e:'Ada '+cnt+' bagian '+cols[ci].n+' dari '+total+' bagian → P = '+cnt+'/'+total+' = '+correct+'.'};
- }else{
-  const N=total*rnd(4,8),ans=cnt*N/total;
-  q={type:'num',t:'Roda dengan '+total+' bagian sama besar ini diputar '+N+' kali. Berapa kali diperkirakan jarum berhenti di warna '+cn+'? (frekuensi harapan)',a:ans,e:'F = P × n = '+cnt+'/'+total+' × '+N+' = '+ans+' kali.'};
- }
- SP.q=q;SP.slices=slices;SP.cols=cols;SP.total=total;SP.locked=false;SP.spun=false;
- render('<div class="panel"><button class="back" onclick="go(\'game/spinner\')">← Keluar</button><div class="eyebrow">LUCKY SPINNER · RONDE '+(SP.r+1)+'/5 · SKOR '+SP.score+'</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="320" height="320" style="transform:rotate('+SP.rot+'deg)"></canvas></div><div class="chips" style="justify-content:center">'+cols.map(c=>'<span class="chip" style="background:'+c.c+'33"><span style="color:'+c.c+'">●</span> '+c.n+'</span>').join('')+'</div>'+qBody(q,'spAnswer')+'<div id="fb"></div></div>');
- drawWheel($('#wheel'),slices,cols);afterQ(q);
-}
-function spAnswer(v){
- if(SP.locked)return;const ok=judge(SP.q,v);if(ok===null)return;SP.locked=true;if(ok)SP.score+=20;
- $('#fb').innerHTML=fbHtml(SP.q,ok)+'<button class="btn primary" id="spb" onclick="spSpin()">🎡 Putar roda!</button><div id="spr"></div>';save();
-}
-function spSpin(){
- if(SP.spun)return;SP.spun=true;$('#spb').disabled=true;sfx('tap');S.stats.spins++;
- const total=SP.total,a=360/total,k=rnd(0,total-1),center=(k+.5)*a,jit=(Math.random()-.5)*a*.7,target=((360-center+jit)%360+360)%360,cur=SP.rot%360;
- SP.rot+=((target-cur)%360+360)%360+360*5;
- const w=$('#wheel');w.style.transform='rotate('+SP.rot+'deg)';
- later(()=>{const c=SP.cols[SP.slices[k]];$('#spr').innerHTML='<div class="feedback good" style="margin-top:12px">🎡 Jarum berhenti di <b style="color:'+c.c+'">'+c.n+'</b>!</div><button class="btn primary" onclick="spNext()">'+(SP.r<4?'Ronde berikutnya':'Lihat skor')+' ➜</button>';save()},4200);
-}
-function spNext(){if(SP.r<4){SP.r++;spRound()}else gameFinish('spinner',SP.score)}
-
-/* ---- Data Detective ---- */
-let DD=null;
-function ddStart(){DD={i:0,score:0};ddCase()}
-function ddCase(){
- const n=[5,7,6,7][DD.i],reps=n>=7?3:2,m=rnd(2,19);
- const others=shuffle(Array.from({length:20},(_,i)=>i+1).filter(x=>x!==m)).slice(0,n-reps);
- DD.arr=shuffle([...Array(reps).fill(m),...others]);DD.used=new Set();DD.sorted=[];DD.mis=0;DD.checked=false;
- render('<div class="panel"><button class="back" onclick="go(\'game/detective\')">← Keluar</button><div class="eyebrow">DATA DETECTIVE · KASUS '+(DD.i+1)+'/4 · SKOR '+DD.score+'</div><h2>Kasus angka misterius 🔍</h2><p><b>Langkah 1:</b> ketuk angka mulai dari yang <b>terkecil</b> sampai <b>terbesar</b>.</p><div class="game-stage"><div class="tiles" id="pool">'+DD.arr.map((v,i)=>'<button class="tile" id="t'+i+'" onclick="ddTap('+i+')">'+v+'</button>').join('')+'</div><div class="muted">Data terurut:</div><div class="tiles" id="srow" style="min-height:64px"></div></div><div id="ddform" class="hidden"><p><b>Langkah 2:</b> hitung ukuran pemusatan data (mean dibulatkan 1 desimal).</p><div class="grid3"><div><label class="lbl">Mean</label><input class="input" id="dm" inputmode="decimal"></div><div><label class="lbl">Median</label><input class="input" id="dd" inputmode="decimal"></div><div><label class="lbl">Modus</label><input class="input" id="do" inputmode="decimal"></div></div><div class="row"><button class="btn primary" onclick="ddCheck()">🔎 Periksa jawaban</button></div></div><div id="fb"></div></div>');
-}
-function ddTap(i){
- if(DD.used.has(i))return;const rem=DD.arr.filter((_,k)=>!DD.used.has(k)),mn=Math.min(...rem),b=$('#t'+i);
- if(DD.arr[i]===mn){DD.used.add(i);DD.sorted.push(DD.arr[i]);sfx('tap');b.remove();const t=document.createElement('button');t.className='tile sorted';t.textContent=DD.arr[i];$('#srow').appendChild(t);
-  if(DD.used.size===DD.arr.length){$('#pool').innerHTML='<span class="muted">Semua angka sudah terurut! 🎉</span>';$('#ddform').classList.remove('hidden');$('#dm').focus()}}
- else{DD.mis++;sfx('no');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake')}
-}
-function ddCheck(){
- if(DD.checked)return;const m=parseNum($('#dm').value),d=parseNum($('#dd').value),o=parseNum($('#do').value);
- if([m,d,o].some(x=>!Number.isFinite(x))){toast('Isi ketiga jawaban dulu ya ✍️');return}
- DD.checked=true;const a=DD.arr,mean=sum(a)/a.length,md=median(a),mo=modes(a)[0];
- const okM=Math.abs(m-mean)<=0.06,okD=Math.abs(d-md)<=0.005,okO=o===mo,sp=Math.max(0,5-DD.mis),pts=sp+(okM?7:0)+(okD?7:0)+(okO?6:0);DD.score+=pts;
- $$('#ddform input').forEach(i=>i.disabled=true);
- const mk=(ok)=>ok?'✅':'❌';
- $('#fb').innerHTML='<div class="feedback '+(pts>=20?'good':'bad')+'">'+mk(okM)+' Mean = '+sum(a)+' ÷ '+a.length+' = <b>'+fmt(Math.round(mean*10)/10)+'</b><br>'+mk(okD)+' Median = <b>'+fmt(md)+'</b> (data terurut: '+DD.sorted.join(', ')+')<br>'+mk(okO)+' Modus = <b>'+mo+'</b><br>Poin kasus ini: <b>'+pts+'/25</b></div><button class="btn primary" onclick="ddNext()">'+(DD.i<3?'Kasus berikutnya':'Lihat skor')+' ➜</button>';
- S.stats.answered+=3;S.stats.correct+=(okM?1:0)+(okD?1:0)+(okO?1:0);sfx(pts>=20?'ok':'no');save();
-}
-function ddNext(){if(DD.i<3){DD.i++;ddCase()}else gameFinish('detective',DD.score)}
-
-/* ---- Chart Master ---- */
-const CMT=[{t:'Buah favorit siswa',l:['Apel','Jeruk','Mangga','Pisang','Anggur'],u:'siswa'},{t:'Cara siswa berangkat ke sekolah',l:['Jalan kaki','Sepeda','Motor','Angkot','Bus'],u:'siswa'},{t:'Ekstrakurikuler pilihan siswa',l:['Basket','Futsal','Pramuka','Musik','Robotik'],u:'siswa'},{t:'Hewan peliharaan warga',l:['Kucing','Anjing','Burung','Ikan','Kelinci'],u:'keluarga'}];
-let CM=null;
-function cmStart(){CM={r:0,score:0};cmRound()}
-function cmMake(r){
- const type=['bar','pie','table','bar','pie'][r],th=pick(CMT),labels=shuffle(th.l).slice(0,4);
- const uniq=ks=>{const mx=Math.max(...ks),mn=Math.min(...ks);return ks.filter(k=>k===mx).length===1&&ks.filter(k=>k===mn).length===1};
- let ks;do{ks=[1,1,1,1];for(let i=0;i<16;i++)ks[rnd(0,3)]++}while(!uniq(ks));
- const T=pick([20,40,60,100]),unit=T/20,counts=ks.map(k=>k*unit),mi=ks.indexOf(Math.max(...ks)),li=ks.indexOf(Math.min(...ks)),ix=rnd(0,3);
- const mcQ=(txt,ai,ex)=>({type:'mc',t:txt,o:labels,a:ai,e:ex});
- if(type==='bar'){
-  const sub=pick(['most','least','diff','total']);const chart={type:'bar',title:th.t+' ('+th.u+')',labels,data:counts};let q;
-  if(sub==='most')q=mcQ('Kategori mana yang paling banyak dipilih?',mi,labels[mi]+' memiliki batang tertinggi ('+counts[mi]+').');
-  else if(sub==='least')q=mcQ('Kategori mana yang paling sedikit dipilih?',li,labels[li]+' memiliki batang terendah ('+counts[li]+').');
-  else if(sub==='diff'){let j;do{j=rnd(0,3)}while(j===ix);q={type:'num',t:'Berapa selisih banyaknya antara '+labels[ix]+' dan '+labels[j]+'?',a:Math.abs(counts[ix]-counts[j]),e:'|'+counts[ix]+' − '+counts[j]+'| = '+Math.abs(counts[ix]-counts[j])+'.'}}
-  else q={type:'num',t:'Berapa total '+th.u+' yang disurvei?',a:T,e:counts.join(' + ')+' = '+T+'.'};
-  q.chart=chart;return q;
- }
- if(type==='pie'){
-  const pct=ks.map(k=>k*5),chart={type:'pie',pct:true,title:th.t,labels,data:pct};let q;
-  if(Math.random()<.5)q=mcQ('Kategori mana yang paling banyak dipilih?',mi,labels[mi]+' memiliki bagian terbesar ('+pct[mi]+'%).');
-  else{const Tt=pick([40,60,80,100,200]);q={type:'num',t:'Jika total ada '+Tt+' '+th.u+', berapa '+th.u+' yang memilih '+labels[ix]+'?',a:pct[ix]*Tt/100,e:pct[ix]+'% × '+Tt+' = '+pct[ix]*Tt/100+'.'}}
-  q.chart=chart;return q;
- }
- return {type:'num',t:'Berdasarkan tabel, berapa persen yang memilih '+labels[ix]+'?',a:ks[ix]*5,table:{labels,data:counts,total:T},e:counts[ix]+'/'+T+' × 100% = '+ks[ix]*5+'%.'};
-}
-function cmRound(){
- CM.q=cmMake(CM.r);CM.locked=false;
- render('<div class="panel"><button class="back" onclick="go(\'game/chart\')">← Keluar</button><div class="eyebrow">CHART MASTER · TEKA-TEKI '+(CM.r+1)+'/5 · SKOR '+CM.score+'</div><h2>Baca datanya!</h2>'+qBody(CM.q,'cmAnswer')+'<div id="fb"></div></div>');afterQ(CM.q);
-}
-function cmAnswer(v){
- if(CM.locked)return;const ok=judge(CM.q,v);if(ok===null)return;CM.locked=true;if(ok)CM.score+=20;
- $('#fb').innerHTML=fbHtml(CM.q,ok)+'<button class="btn primary" onclick="cmNext()">'+(CM.r<4?'Teka-teki berikutnya':'Lihat skor')+' ➜</button>';save();
-}
-function cmNext(){if(CM.r<4){CM.r++;cmRound()}else gameFinish('chart',CM.score)}
-
-/* ============ QUIZ BATTLE ============ */
-let B=null,BT=null;
-function battleLobby(){
- render('<div class="panel center"><div class="big bob">⚔️</div><div class="eyebrow">QUIZ BATTLE</div><h2>Lawan monster angka!</h2><p>10 soal, 20 detik per soal, 3 nyawa. Jawaban benar melukai monster — makin cepat dan makin banyak combo, makin besar skornya!</p><div class="muted">🏅 Skor terbaik: <b>'+S.battle.best+'</b> · Kemenangan: <b>'+S.battle.wins+'</b></div><div class="row center"><button class="btn primary" onclick="battleStart(\'mix\')">🎲📊 Campuran</button><button class="btn secondary" onclick="battleStart(\'prob\')">🎲 Peluang</button><button class="btn secondary" onclick="battleStart(\'stat\')">📊 Statistika</button></div></div>');
-}
-function battleStart(topic){
- const pool=QBANK.filter(q=>topic==='mix'||q.w===topic);
- B={topic,qs:shuffle(pool).slice(0,10),i:0,hp:100,hearts:3,score:0,combo:0,maxCombo:0,ok:0,left:20,locked:false};bRender();
-}
-function bRender(){
- const q=B.qs[B.i];B.locked=false;B.left=20;
- render('<div class="panel wide"><div class="battlehead"><div><div class="monster" id="mon">👾</div><div class="hpbar"><i id="mhp" style="width:'+B.hp+'%"></i></div><small class="muted">HP monster</small></div><div><div style="font-size:50px">'+S.avatar+'</div><div class="hearts" id="hrt">'+'❤️'.repeat(B.hearts)+'🖤'.repeat(3-B.hearts)+'</div><b>Skor: <span id="bs">'+B.score+'</span></b> · 🔥 Combo: <span id="bc">'+B.combo+'</span></div></div><div class="eyebrow" style="margin-top:12px">SOAL '+(B.i+1)+'/'+B.qs.length+' · ⏱ <span id="tl">20</span> detik</div><div class="timer"><i id="tb" style="width:100%"></i></div>'+qBody(q,'bAnswer')+'<div id="fb"></div></div>');
- afterQ(q);
- BT=setInterval(()=>{B.left=Math.max(0,B.left-0.1);const tb=$('#tb');if(!tb){clearInterval(BT);return}tb.style.width=B.left/20*100+'%';tb.style.background=B.left<6?'#f27b68':'#70c7a6';$('#tl').textContent=Math.ceil(B.left);if(B.left<=0){bAnswer('__timeout')}},100);
- TIMERS.add(BT);
-}
-function bAnswer(v){
- if(B.locked)return;const q=B.qs[B.i],to=v==='__timeout';let ok;
- if(!to){ok=judge(q,v);if(ok===null)return}else{ok=false;lockQ(q,-1,false);sfx('no');S.stats.answered++}
- B.locked=true;clearInterval(BT);TIMERS.delete(BT);
- if(ok){const dmg=15+Math.min(B.combo,3)*5;B.hp=Math.max(0,B.hp-dmg);B.score+=100+Math.round(B.left*5)+B.combo*10;B.combo++;B.maxCombo=Math.max(B.maxCombo,B.combo);B.ok++;const m=$('#mon');m.classList.add('hit')}
- else{B.hearts--;B.combo=0}
- $('#mhp').style.width=B.hp+'%';$('#hrt').textContent='❤️'.repeat(B.hearts)+'🖤'.repeat(3-B.hearts);$('#bs').textContent=B.score;$('#bc').textContent=B.combo;
- const end=B.hp<=0||B.hearts<=0||B.i>=B.qs.length-1;
- $('#fb').innerHTML=(to?'<div class="feedback bad">⏰ Waktu habis! Jawabannya <b>'+ansText(q)+'</b>.<br>'+q.e+'</div>':fbHtml(q,ok))+'<button class="btn primary" onclick="'+(end?'bFinish()':'bNext()')+'">'+(end?'Lihat hasil':'Soal berikutnya')+' ➜</button>';persist();
-}
-function bNext(){B.i++;bRender()}
-function bFinish(){
- const win=B.hp<=0;if(win)B.score+=200;const coins=Math.floor(B.score/50),xp=B.ok*5+(win?30:0);
- addReward(xp,coins);S.battle.runs.unshift({score:B.score,ok:B.ok,win,d:Date.now()});S.battle.runs=S.battle.runs.slice(0,20);
- S.battle.best=Math.max(S.battle.best,B.score);if(win)S.battle.wins++;S.battle.combo=Math.max(S.battle.combo,B.maxCombo);
- S.board.push({name:S.name||'Petualang',score:B.score,d:Date.now()});S.board.sort((a,b)=>b.score-a.score);S.board=S.board.slice(0,30);
- save();sfx(win?'win':'no');
- render('<div class="panel center"><div class="big">'+(win?'🏆':'💫')+'</div><div class="eyebrow">'+(win?'MONSTER KALAH!':'BATTLE SELESAI')+'</div><h2>Skor: '+B.score+'</h2><p>Benar <b>'+B.ok+'</b> dari '+(B.i+1)+' soal · Combo terbaik <b>'+B.maxCombo+'</b>'+(win?' · Bonus kemenangan +200':'')+'</p><div class="row center"><span class="pill">⭐ +'+xp+' XP</span><span class="pill">🪙 +'+coins+'</span></div><div class="row center"><button class="btn primary" onclick="battleStart(\''+B.topic+'\')">🔁 Main lagi</button><button class="btn secondary" onclick="go(\'board\')">🏆 Papan peringkat</button><button class="btn secondary" onclick="go(\'battle\')">Menu</button></div></div>');
+function go(viewId, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  document.getElementById(viewId).classList.remove('hidden');
+  if (btn) {
+    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 }
 
-/* ============ ACHIEVEMENT / LEADERBOARD ============ */
-function achView(){
- render('<div class="section-head" style="margin-top:0"><h2>🏅 Achievement</h2><p>'+S.ach.length+' dari '+ACH.length+' penghargaan terbuka.</p></div><div class="grid2">'+ACH.map(a=>{const o=S.ach.includes(a.id);return '<div class="ach '+(o?'':'lock')+'"><div class="ai">'+(o?a.i:'🔒')+'</div><div><b>'+a.n+'</b><small>'+a.d+(a.r?' · hadiah '+a.r+' 🪙':'')+'</small></div></div>'}).join('')+'</div>');
-}
-const RIV_B=[{name:'Kak Nova 🤖',score:1450},{name:'Bima 🤖',score:1180},{name:'Sari 🤖',score:900},{name:'Raka 🤖',score:640},{name:'Dewi 🤖',score:420}];
-const RIV_X=[{name:'Kak Nova 🤖',xp:980},{name:'Bima 🤖',xp:720},{name:'Sari 🤖',xp:510},{name:'Raka 🤖',xp:300},{name:'Dewi 🤖',xp:140}];
-function boardView(tab){
- tab=tab==='xp'?'xp':'battle';
- let rows;
- if(tab==='battle')rows=[...S.board.map(e=>({name:e.name,v:e.score,me:true})),...RIV_B.map(e=>({name:e.name,v:e.score}))];
- else rows=[{name:S.name||'Kamu',v:S.xp,me:true},...RIV_X.map(e=>({name:e.name,v:e.xp}))];
- rows.sort((a,b)=>b.v-a.v);rows=rows.slice(0,10);const med=['🥇','🥈','🥉'];
- render('<div class="panel"><div class="eyebrow">LEADERBOARD</div><h2>🏆 Papan Peringkat</h2><div class="chips"><button class="chip '+(tab==='battle'?'on':'')+'" onclick="go(\'board/battle\')">⚔️ Skor Quiz Battle</button><button class="chip '+(tab==='xp'?'on':'')+'" onclick="go(\'board/xp\')">⭐ Total XP</button></div><ol class="board">'+rows.map((r,i)=>'<li class="'+(r.me?'me':'')+'"><span class="rk">'+(med[i]||i+1)+'</span><span class="nm">'+esc(r.name)+(r.me?' <small>(kamu)</small>':'')+'</span><b>'+r.v+(tab==='xp'?' XP':'')+'</b></li>').join('')+'</ol><p class="muted">Peringkat tersimpan di perangkat ini. Rival 🤖 adalah pemain simulasi sebagai penyemangat. Untuk peringkat online antar-siswa dibutuhkan server/database (bisa jadi tahap pengembangan berikutnya).</p></div>');
+let xp = 0, missions = 0;
+function completeDemo(m) {
+  xp += 50;
+  missions = Math.min(8, missions + 1);
+  document.getElementById('topXP').textContent = xp;
+  document.getElementById('homeXP').textContent = xp + ' XP';
+  document.getElementById('homeDone').textContent = missions + ' / 8';
+  setMood('cheer', document.querySelectorAll('.algeo-moods button')[3]);
+  go('home', document.querySelector('[data-view="home"]'));
 }
 
-/* ============ PROGRESS & REPORT ============ */
-function calcReport(){
- const ms=MISSIONS.map(m=>({m,s:stars(m.id),t:(S.prog[m.id]||{}).tries||0}));
- const mScore=Math.round(sum(ms.map(x=>x.s/3*100))/8),gk=Object.keys(GAMES),gScore=Math.round(sum(gk.map(best))/gk.length),bScore=Math.min(100,Math.round(S.battle.best/15));
- const fin=Math.round(mScore*.6+gScore*.25+bScore*.15),grade=fin>=85?['A','Sangat baik']:fin>=70?['B','Baik']:fin>=55?['C','Cukup']:['D','Perlu belajar lagi'];
- const acc=S.stats.answered?Math.round(S.stats.correct/S.stats.answered*100):0;
- return {ms,mScore,gScore,bScore,fin,grade,acc};
-}
-function progressView(){
- const r=calcReport(),done=MISSIONS.filter(m=>isDone(m.id)).length;
- render('<div class="section-head" style="margin-top:0"><h2>📈 Progress belajar</h2><p>Pantau perkembanganmu di setiap materi.</p></div><div class="stats"><div class="stat"><div class="stat-icon" style="background:#e5f5ed">🏆</div><div><strong>'+done+' / 8</strong><small>Misi selesai</small></div></div><div class="stat"><div class="stat-icon" style="background:#fff1ce">⭐</div><div><strong>'+totalStars()+' / 24</strong><small>Bintang</small></div></div><div class="stat"><div class="stat-icon" style="background:#eeeaff">🎯</div><div><strong>'+r.acc+'%</strong><small>Akurasi jawaban</small></div></div><div class="stat"><div class="stat-icon" style="background:#dcedf5">📝</div><div><strong>'+r.fin+'</strong><small>Nilai sementara</small></div></div></div><div class="grid2" style="margin-top:16px"><div class="card"><h3>Penyelesaian misi</h3>'+chartBox('pc1','','sm')+'</div><div class="card"><h3>Penguasaan per materi (%)</h3>'+chartBox('pc2','')+'</div></div>'+(S.battle.runs.length>1?'<div class="card" style="margin-top:16px"><h3>Tren skor Quiz Battle</h3>'+chartBox('pc3','','sm')+'</div>':'')+'<div class="row center" style="margin-top:18px"><button class="btn primary" onclick="go(\'report\')">📄 Laporan evaluasi</button></div>');
- mountChart('pc1',{type:'doughnut',labels:['Selesai','Belum'],data:[done,8-done],colors:['#70c7a6','#e3e7ee']});
- mountChart('pc2',{type:'bar',labels:MISSIONS.map(m=>m.abbr),data:MISSIONS.map(m=>Math.round(stars(m.id)/3*100)),max:100});
- if(S.battle.runs.length>1){const rs=[...S.battle.runs].reverse();mountChart('pc3',{type:'line',labels:rs.map((_,i)=>'#'+(i+1)),data:rs.map(x=>x.score)})}
-}
-function reportView(){
- const r=calcReport(),d=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
- const weak=r.ms.filter(x=>x.s<2);
- render('<div class="panel rpt"><button class="back noprint" onclick="go(\'progress\')">← Progres</button><div class="eyebrow">LAPORAN EVALUASI PEMBELAJARAN</div><h2>MathQuest — Peluang &amp; Statistika</h2><p>Nama: <b>'+esc(S.name||'-')+'</b> · Tanggal: '+d+' · Peringkat: '+rank()+' (Level '+level()+')</p><div class="center" style="text-align:center"><div class="score-big">'+r.fin+'</div><div class="pill">Predikat '+r.grade[0]+' — '+r.grade[1]+'</div></div>'
- +'<h3>Rincian nilai</h3><table class="tbl" style="width:100%"><tr><th>Komponen</th><th>Bobot</th><th>Nilai</th></tr><tr><td>Misi &amp; tantangan (8 level)</td><td>60%</td><td>'+r.mScore+'</td></tr><tr><td>Mini games (rata-rata skor terbaik)</td><td>25%</td><td>'+r.gScore+'</td></tr><tr><td>Quiz Battle (skor terbaik ÷ 15)</td><td>15%</td><td>'+r.bScore+'</td></tr></table>'
- +'<h3>Hasil per materi</h3><table class="tbl" style="width:100%"><tr><th>Materi</th><th>Bintang</th><th>Percobaan</th><th>Status</th></tr>'+r.ms.map(x=>'<tr><td style="text-align:left">'+x.m.title+'</td><td>'+starStr(x.s)+'</td><td>'+x.t+'</td><td>'+(x.s>=2?'Tuntas':x.t?'Remedial':'Belum')+'</td></tr>').join('')+'</table>'
- +'<h3>Statistik permainan</h3><p>Total soal dijawab: <b>'+S.stats.answered+'</b> · Benar: <b>'+S.stats.correct+'</b> ('+r.acc+'%) · Achievement: <b>'+S.ach.length+'/'+ACH.length+'</b> · Koin terkumpul: <b>'+S.earned+'</b></p>'
- +'<h3>Rekomendasi</h3>'+(weak.length?'<ul>'+weak.map(x=>'<li>Ulangi materi <b>'+x.m.title+'</b> '+(isUnlocked(x.m.id)?'<a class="noprint" href="#/lesson/'+x.m.id+'">→ buka</a>':'(belum terbuka)')+'</li>').join('')+'</ul>':'<p>🎉 Semua materi sudah tuntas! Raih 3 bintang di setiap misi dan tantang diri di Quiz Battle.</p>')
- +'<div class="row noprint"><button class="btn primary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button><button class="btn secondary" onclick="dlCSV()">⬇️ Unduh CSV</button></div></div>');
-}
-function dlCSV(){
- const r=calcReport(),rows=[['Nama',S.name],['Nilai akhir',r.fin],['Predikat',r.grade[0]],[],['Materi','Bintang','Percobaan']].concat(r.ms.map(x=>[x.m.title,x.s,x.t]));
- const csv=rows.map(a=>a.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
- const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='laporan-mathquest.csv';a.click();
-}
-
-/* ============ PROFIL ============ */
-const AV=[{e:'🧭',c:0},{e:'🦊',c:0},{e:'🐼',c:0},{e:'🧑‍🚀',c:60},{e:'🦄',c:120},{e:'🐲',c:200}];
-function openProfile(first){
- openModal('<h2>'+(first?'Selamat datang, Petualang!':'Profil Petualang')+'</h2>'+(first?owl('Aku Profesor Hootie, pemandumu di dunia angka. Siapa namamu, petualang?'):'')+'<label class="lbl">Nama</label><input id="pn" class="input" maxlength="16" value="'+esc(S.name)+'" placeholder="Nama petualang"><label class="lbl">Karakter (beli dengan koin 🪙)</label><div class="avgrid">'+AV.map((a,i)=>'<button class="avbtn '+(S.avatar===a.e?'on':'')+'" onclick="pickAv('+i+')">'+a.e+'<small>'+(S.owned.includes(a.e)?'✓':'🪙 '+a.c)+'</small></button>').join('')+'</div><div class="row"><button class="btn secondary" onclick="toggleOpt(\'mute\')">'+(S.mute?'🔇 Suara mati':'🔊 Suara nyala')+'</button><button class="btn secondary" onclick="toggleOpt(\'teacher\')">'+(S.teacher?'🔓 Buka semua misi: ON':'🔒 Buka semua misi: OFF')+'</button></div><div class="row between" style="margin-top:18px"><button class="btn danger" onclick="resetAll()">Reset progres</button><button class="btn primary" onclick="saveProfile()">Simpan</button></div>');
-}
-const keepName=()=>{const n=$('#pn');if(n)S.name=n.value.trim().slice(0,16)};
-function pickAv(i){keepName();const a=AV[i];if(S.owned.includes(a.e))S.avatar=a.e;else if(S.coins>=a.c){S.coins-=a.c;S.owned.push(a.e);S.avatar=a.e;sfx('win');toast('Karakter baru terbuka! '+a.e)}else toast('Koin belum cukup 🪙 (butuh '+a.c+')');persist();updateTop();openProfile(false)}
-function toggleOpt(k){keepName();S[k]=!S[k];persist();openProfile(false)}
-function saveProfile(){keepName();if(!S.name)S.name='Petualang';save();closeModal();lastTok=null;route()}
-function resetAll(){if(!confirm('Hapus semua progres di perangkat ini?'))return;localStorage.removeItem(KEY);load();lastTok=null;updateTop();route();openProfile(true)}
-
-/* ============ START ============ */
-load();updateTop();route();
-if(!S.name)openProfile(true);
+// Inisialisasi awal
+updateAlgeoVisuals('happy');
 </script>
 </body>
 </html>
